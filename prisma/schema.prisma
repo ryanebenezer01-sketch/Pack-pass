@@ -1,0 +1,128 @@
+// Prisma schema for AI CMO.
+//
+// The shipped app uses an in-memory store (src/lib/store.ts) so it runs with
+// zero infra. This schema is the durable, multi-tenant target: point
+// DATABASE_URL at Postgres, run `prisma migrate dev`, and reimplement
+// src/lib/store.ts against the Prisma client with the same method signatures.
+//
+// Multi-tenancy: every row is scoped by userId. All queries must filter on the
+// authenticated user's id so tenants stay isolated.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  // Stripe subscription state for billing / usage metering.
+  plan      Plan     @default(FREE)
+  stripeCustomerId String? @unique
+  createdAt DateTime @default(now())
+
+  brands    BrandProfile[]
+  drafts    Draft[]
+  runs      AgentRun[]
+}
+
+enum Plan {
+  FREE
+  MAX
+}
+
+model BrandProfile {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  url              String
+  name             String
+  industry         String
+  voice            String
+  toneWords        String[]
+  targetAudience   String
+  valueProposition String
+  keywords         String[]
+  competitors      String[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  drafts           Draft[]
+
+  @@index([userId])
+}
+
+enum AgentKey {
+  seo
+  reddit
+  linkedin
+  x
+  writer
+  geo
+  ugc
+  influencer
+  coding
+  hackernews
+}
+
+enum DraftKind {
+  blog_post
+  reddit_reply
+  social_post
+  long_form
+  geo_content
+  video_brief
+  code_fix
+}
+
+enum DraftStatus {
+  pending
+  approved
+  rejected
+  scheduled
+}
+
+model Draft {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  brandId   String
+  brand     BrandProfile @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  agent     AgentKey
+  kind      DraftKind
+  title     String
+  body      String
+  // Agent-specific structured metadata (keyword, subreddit, target URL, …).
+  meta      Json
+  status    DraftStatus @default(pending)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([userId, status])
+  @@index([brandId, agent])
+}
+
+enum RunStatus {
+  running
+  completed
+  failed
+}
+
+model AgentRun {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent         AgentKey
+  status        RunStatus @default(running)
+  draftsCreated Int       @default(0)
+  error         String?
+  startedAt     DateTime  @default(now())
+  finishedAt    DateTime?
+
+  @@index([userId, agent])
+}

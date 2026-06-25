@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #ededf0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle dotted grid backdrop for the dark theme. */
+.bg-grid {
+  background-image: radial-gradient(circle at 1px 1px, #1c1c22 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* Markdown rendering inside the draft editor / preview. */
+.prose-cmo h1 { font-size: 1.6rem; font-weight: 700; margin: 0.6em 0 0.4em; }
+.prose-cmo h2 { font-size: 1.25rem; font-weight: 600; margin: 1em 0 0.4em; }
+.prose-cmo h3 { font-size: 1.05rem; font-weight: 600; margin: 0.8em 0 0.3em; }
+.prose-cmo p { margin: 0.6em 0; line-height: 1.7; color: #c8c8d0; }
+.prose-cmo ul { margin: 0.6em 0; padding-left: 1.4em; list-style: disc; color: #c8c8d0; }
+.prose-cmo ol { margin: 0.6em 0; padding-left: 1.4em; list-style: decimal; color: #c8c8d0; }
+.prose-cmo li { margin: 0.3em 0; }
+.prose-cmo blockquote {
+  border-left: 3px solid #6d5efc;
+  padding-left: 1em;
+  color: #9a9aa3;
+  margin: 0.8em 0;
+}
+.prose-cmo a { color: #6d5efc; text-decoration: underline; }
+.prose-cmo strong { color: #ededf0; }
