@@ -167,19 +167,19 @@ def build_dashboard(ws):
     ws.row_dimensions[4].height = 12
 
     # Title
-    hdr(ws, 2, 2, 10, "FIRE RETIREMENT PLANNER", C_NAVY, 22)
-    hdr(ws, 3, 2, 10, "Financial Independence · Retire Early · Live Free", C_BLUE, 11)
+    hdr(ws, 2, 2, 10, "FIRE RETIREMENT PLANNER  🇮🇳", C_NAVY, 22)
+    hdr(ws, 3, 2, 10, "Financial Independence · Retire Early · Live Free  ·  All values in ₹ Indian Rupees (INR)", C_BLUE, 11)
 
     # KPI Cards — row 5 (labels) row 6 (values)
     ws.row_dimensions[5].height = 20
     ws.row_dimensions[6].height = 38
 
     kpis = [
-        ("NET WORTH",     "='Net Worth'!C42",                                         C_NAVY,  '$#,##0'),
-        ("FIRE NUMBER",   "='Investment Growth'!C14",                                 C_GREEN, '$#,##0'),
+        ("NET WORTH",     "='Net Worth'!C42",                                         C_NAVY,  '₹#,##0'),
+        ("FIRE NUMBER",   "='Investment Growth'!C14",                                 C_GREEN, '₹#,##0'),
         ("FI PROGRESS",   "=IFERROR('Net Worth'!C42/'Investment Growth'!C14,0)",     C_BLUE,  '0.0%'),
         ("YEARS TO FIRE", "='Investment Growth'!C15",                                 C_PURPLE,'0.0'),
-        ("MONTHLY SAVINGS","='Budget & Savings'!C55",                                 C_GOLD,  '$#,##0'),
+        ("MONTHLY SAVINGS","='Budget & Savings'!C55",                                 C_GOLD,  '₹#,##0'),
     ]
     card_start_cols = [2, 4, 6, 8, 10]
     for i, ((title, formula, color, fmt), cs) in enumerate(zip(kpis, card_start_cols)):
@@ -229,13 +229,13 @@ def build_dashboard(ws):
               fill_color=C_WHITE,
               font_obj=_font(size=10, color=C_BLACK),
               align_obj=_align("right","center"),
-              num_fmt='$#,##0')
+              num_fmt='₹#,##0')
         # Current NW
         merge(ws, r, 6, 7, "='Net Worth'!C42",
               fill_color=C_LIGHT,
               font_obj=_font(size=10, color=C_BLUE),
               align_obj=_align("right","center"),
-              num_fmt='$#,##0')
+              num_fmt='₹#,##0')
         # Progress
         prog_ref = col(4) + str(r)
         curr_ref = col(6) + str(r)
@@ -299,10 +299,10 @@ def build_net_worth(ws):
 
     ws.row_dimensions[1].height = 8
     ws.row_dimensions[2].height = 44
-    hdr(ws, 2, 2, 6, "NET WORTH TRACKER", C_NAVY, 18)
+    hdr(ws, 2, 2, 6, "NET WORTH TRACKER  (₹ Indian Rupees)", C_NAVY, 18)
     ws.row_dimensions[3].height = 20
     merge(ws, 3, 2, 6,
-          f"Last updated: {datetime.date.today().strftime('%B %d, %Y')}  ·  Update monthly for accurate FIRE tracking",
+          f"Last updated: {datetime.date.today().strftime('%B %d, %Y')}  ·  Update monthly for accurate FIRE tracking  ·  Amounts in ₹ INR",
           fill_color=C_LIGHT,
           font_obj=_font(size=10, italic=True, color=C_GRAY),
           align_obj=_align("center","center"))
@@ -316,20 +316,20 @@ def build_net_worth(ws):
     ws.row_dimensions[6].height = 20
 
     assets = [
-        ("Cash & Savings Account",          15000,  0.005),
-        ("Emergency Fund",                  10000,  0.047),
-        ("Checking Account",                 5000,  0.001),
-        ("401(k) / 403(b)",                85000,  0.08),
-        ("Roth IRA",                        35000,  0.08),
-        ("Traditional IRA",                     0,  0.08),
-        ("Taxable Brokerage Account",       25000,  0.08),
-        ("HSA (Health Savings Account)",     8000,  0.07),
-        ("Real Estate — Primary Residence",350000,  0.04),
-        ("Real Estate — Investment Property",   0,  0.06),
-        ("Vehicles",                        15000, -0.10),
-        ("Business Equity",                     0,  0.10),
-        ("Crypto / Alternative Assets",      5000,  0.15),
-        ("Other Assets",                     2000,  0.02),
+        ("Savings Bank Account",           500000,  0.035),
+        ("Emergency Fund (FD / Liquid MF)", 300000,  0.07),
+        ("Salary / Current Account",        100000,  0.00),
+        ("EPF (Employee Provident Fund)",  2000000,  0.082),
+        ("PPF (Public Provident Fund)",     800000,  0.071),
+        ("NPS (National Pension System)",   500000,  0.10),
+        ("Mutual Funds — Equity (Demat)",  1200000,  0.12),
+        ("Stocks — Direct Equity",          600000,  0.12),
+        ("Real Estate — Primary Residence",8000000,  0.06),
+        ("Real Estate — Investment Property",   0,  0.07),
+        ("Gold / Sovereign Gold Bonds",     500000,  0.08),
+        ("Vehicles",                        600000, -0.15),
+        ("Crypto / Alternative Assets",     200000,  0.15),
+        ("Other Assets",                    100000,  0.05),
     ]
 
     ASSET_START = 7
@@ -340,7 +340,7 @@ def build_net_worth(ws):
         r = ASSET_START + i
         ws.row_dimensions[r].height = 18
         label(ws, r, 2, name)
-        data(ws, r, 3, val, '$#,##0.00')
+        data(ws, r, 3, val, '₹#,##0.00')
         formula_cell(ws, r, 4,
                      f"=IF(C{TOTAL_ASSETS_ROW}>0,C{r}/C{TOTAL_ASSETS_ROW},0)",
                      '0.0%', C_LIGHT, color=C_NAVY)
@@ -351,7 +351,7 @@ def build_net_worth(ws):
         ws[f"F{r}"].alignment = _align("left","center", True)
 
     total_row(ws, TOTAL_ASSETS_ROW, 2, 2,
-              [(3, f"=SUM(C{ASSET_START}:C{ASSET_END})", '$#,##0.00'),
+              [(3, f"=SUM(C{ASSET_START}:C{ASSET_END})", '₹#,##0.00'),
                (4, "100.0%", '0.0%'),
                (5, f"=SUMPRODUCT(C{ASSET_START}:C{ASSET_END},E{ASSET_START}:E{ASSET_END})/C{TOTAL_ASSETS_ROW}", '0.0%')],
               "TOTAL ASSETS", C_GREEN)
@@ -366,18 +366,18 @@ def build_net_worth(ws):
     ws.row_dimensions[LIAB_HDR + 1].height = 20
 
     liabilities = [
-        ("Mortgage — Primary Residence",   250000, 0.065),
-        ("Mortgage — Investment Property",       0, 0.07),
-        ("Home Equity Loan / HELOC",             0, 0.085),
-        ("Auto Loan 1",                     12000, 0.059),
-        ("Auto Loan 2",                         0, 0.00),
-        ("Student Loans",                   18000, 0.055),
-        ("Credit Card 1",                    3500, 0.22),
-        ("Credit Card 2",                       0, 0.22),
-        ("Personal Loan",                       0, 0.12),
-        ("Medical Debt",                        0, 0.00),
-        ("Business Debt",                       0, 0.08),
-        ("Other Liabilities",                   0, 0.00),
+        ("Home Loan — Primary Residence",  4000000, 0.085),
+        ("Home Loan — Investment Property",      0, 0.09),
+        ("Loan Against Property (LAP)",          0, 0.105),
+        ("Car Loan 1",                      600000, 0.09),
+        ("Car Loan 2",                           0, 0.00),
+        ("Education Loan",                  500000, 0.085),
+        ("Credit Card 1",                   100000, 0.36),
+        ("Credit Card 2",                        0, 0.36),
+        ("Personal Loan",                        0, 0.14),
+        ("Medical / Emergency Loan",             0, 0.00),
+        ("Business Loan",                        0, 0.12),
+        ("Other Liabilities",                    0, 0.00),
     ]
 
     LIAB_START = LIAB_HDR + 2  # row 25
@@ -388,7 +388,7 @@ def build_net_worth(ws):
         r = LIAB_START + i
         ws.row_dimensions[r].height = 18
         label(ws, r, 2, name)
-        data(ws, r, 3, val, '$#,##0.00')
+        data(ws, r, 3, val, '₹#,##0.00')
         formula_cell(ws, r, 4,
                      f"=IF(C{TOTAL_LIAB_ROW}>0,C{r}/C{TOTAL_LIAB_ROW},0)",
                      '0.0%', C_LRED, color=C_RED)
@@ -399,7 +399,7 @@ def build_net_worth(ws):
         ws[f"F{r}"].fill = _fill(C_WHITE)
 
     total_row(ws, TOTAL_LIAB_ROW, 2, 2,
-              [(3, f"=SUM(C{LIAB_START}:C{LIAB_END})", '$#,##0.00'),
+              [(3, f"=SUM(C{LIAB_START}:C{LIAB_END})", '₹#,##0.00'),
                (4, "100.0%", '0.0%'),
                (5, f"=IFERROR(SUMPRODUCT(C{LIAB_START}:C{LIAB_END},E{LIAB_START}:E{LIAB_END})/C{TOTAL_LIAB_ROW},0)", '0.0%')],
               "TOTAL LIABILITIES", C_RED)
@@ -411,11 +411,11 @@ def build_net_worth(ws):
     ws.row_dimensions[NW_SECTION + 1].height = 10
 
     summary = [
-        (NW_SECTION + 1, "Total Assets",            f"=C{TOTAL_ASSETS_ROW}",    '$#,##0.00', C_LGREEN, C_GREEN),
-        (NW_SECTION + 2, "Total Liabilities",        f"=C{TOTAL_LIAB_ROW}",     '$#,##0.00', C_LRED,   C_RED),
-        (NW_SECTION + 3, "NET WORTH",                f"=C{TOTAL_ASSETS_ROW}-C{TOTAL_LIAB_ROW}", '$#,##0.00', C_LIGHT, C_NAVY),
+        (NW_SECTION + 1, "Total Assets",            f"=C{TOTAL_ASSETS_ROW}",    '₹#,##0.00', C_LGREEN, C_GREEN),
+        (NW_SECTION + 2, "Total Liabilities",        f"=C{TOTAL_LIAB_ROW}",     '₹#,##0.00', C_LRED,   C_RED),
+        (NW_SECTION + 3, "NET WORTH",                f"=C{TOTAL_ASSETS_ROW}-C{TOTAL_LIAB_ROW}", '₹#,##0.00', C_LIGHT, C_NAVY),
         (NW_SECTION + 4, "Debt-to-Asset Ratio",     f"=IF(C{TOTAL_ASSETS_ROW}>0,C{TOTAL_LIAB_ROW}/C{TOTAL_ASSETS_ROW},0)", '0.0%', C_AMBER, C_GOLD),
-        (NW_SECTION + 5, "Liquid Net Worth",         f"=SUM(C{ASSET_START}:C{ASSET_START+7})-C{TOTAL_LIAB_ROW}", '$#,##0.00', C_LGRAY, C_BLUE),
+        (NW_SECTION + 5, "Liquid Net Worth",         f"=SUM(C{ASSET_START}:C{ASSET_START+7})-C{TOTAL_LIAB_ROW}", '₹#,##0.00', C_LGRAY, C_BLUE),
     ]
 
     for r, lbl_txt, frm, fmt, bg, fc in summary:
@@ -476,10 +476,10 @@ def build_budget(ws):
 
     ws.row_dimensions[1].height = 8
     ws.row_dimensions[2].height = 44
-    hdr(ws, 2, 2, 7, "MONTHLY BUDGET & SAVINGS RATE", C_NAVY, 18)
+    hdr(ws, 2, 2, 7, "MONTHLY BUDGET & SAVINGS RATE  (₹ INR)", C_NAVY, 18)
     ws.row_dimensions[3].height = 20
     merge(ws, 3, 2, 7,
-          "Savings Rate is the single most important variable for achieving FIRE",
+          "Savings Rate is the single most important variable for achieving FIRE  ·  All amounts in ₹ INR",
           fill_color=C_LIGHT,
           font_obj=_font(size=10, italic=True, color=C_GRAY),
           align_obj=_align("center","center"))
@@ -497,26 +497,26 @@ def build_budget(ws):
         """Write an income or expense data row."""
         ws_local.row_dimensions[r].height = 18
         label(ws_local, r, 2, name)
-        data(ws_local, r, 3, budget, '$#,##0.00')
-        data(ws_local, r, 4, actual if actual is not None else budget, '$#,##0.00')
-        formula_cell(ws_local, r, 5, f"=D{r}-C{r}", '$#,##0.00',
+        data(ws_local, r, 3, budget, '₹#,##0.00')
+        data(ws_local, r, 4, actual if actual is not None else budget, '₹#,##0.00')
+        formula_cell(ws_local, r, 5, f"=D{r}-C{r}", '₹#,##0.00',
                      bg=C_LGREEN if (actual or budget) >= 0 else C_LRED)
         formula_cell(ws_local, r, 6,
                      f"=IF({income_total()}>0,C{r}/{income_total()},0)",
                      '0.0%', C_LIGHT)
-        formula_cell(ws_local, r, 7, f"=C{r}*12", '$#,##0', C_LIGHT, color=C_NAVY)
+        formula_cell(ws_local, r, 7, f"=C{r}*12", '₹#,##0', C_LIGHT, color=C_NAVY)
 
     # ── INCOME (rows 6-13) ─────────────────────────────────────────────────────
     hdr(ws, 6, 2, 7, "INCOME", C_GREEN, 11)
     ws.row_dimensions[6].height = 22
 
     incomes = [
-        ("Primary Job — Net Take-Home Pay",   6500),
-        ("Spouse / Partner Income",            4000),
-        ("Side Hustle / Freelance",             500),
-        ("Rental Income",                          0),
-        ("Dividends, Interest & Capital Gains",  200),
-        ("Other Income",                           0),
+        ("Primary Salary — Net In-Hand (after TDS)",  100000),
+        ("Spouse / Partner In-Hand Salary",             60000),
+        ("Freelance / Consulting Income",               10000),
+        ("Rental Income",                                   0),
+        ("Dividends, Interest & Capital Gains",          5000),
+        ("Other Income",                                    0),
     ]
     INC_START, INC_END = 7, 7 + len(incomes) - 1  # 7-12
     INC_TOTAL = INC_END + 1  # 13
@@ -526,11 +526,11 @@ def build_budget(ws):
 
     # Total income row — C13
     total_row(ws, INC_TOTAL, 2, 2,
-              [(3, f"=SUM(C{INC_START}:C{INC_END})", '$#,##0.00'),
-               (4, f"=SUM(D{INC_START}:D{INC_END})", '$#,##0.00'),
-               (5, f"=D{INC_TOTAL}-C{INC_TOTAL}",    '$#,##0.00'),
+              [(3, f"=SUM(C{INC_START}:C{INC_END})", '₹#,##0.00'),
+               (4, f"=SUM(D{INC_START}:D{INC_END})", '₹#,##0.00'),
+               (5, f"=D{INC_TOTAL}-C{INC_TOTAL}",    '₹#,##0.00'),
                (6, "100.0%", '0.0%'),
-               (7, f"=C{INC_TOTAL}*12", '$#,##0')],
+               (7, f"=C{INC_TOTAL}*12", '₹#,##0')],
               "TOTAL MONTHLY INCOME", C_GREEN)
     ws.row_dimensions[INC_TOTAL + 1].height = 8
 
@@ -540,18 +540,18 @@ def build_budget(ws):
     ws.row_dimensions[FIXED_HDR].height = 22
 
     fixed = [
-        ("Rent / Mortgage Payment",        2200),
-        ("HOA Fees",                           0),
-        ("Homeowner's / Renter's Insurance",  100),
-        ("Car Payment 1",                    350),
-        ("Car Payment 2",                      0),
-        ("Auto Insurance",                   150),
-        ("Health Insurance Premium",         400),
-        ("Life / Disability Insurance",       50),
-        ("Internet",                          80),
-        ("Phone",                             85),
-        ("Streaming Subscriptions",           50),
-        ("Gym / Fitness Membership",          40),
+        ("Rent / Home Loan EMI",           30000),
+        ("Society Maintenance Charges",      2000),
+        ("Home / Renter's Insurance",           0),
+        ("Car Loan EMI 1",                   8000),
+        ("Car Loan EMI 2",                      0),
+        ("Vehicle Insurance",                3000),
+        ("Health Insurance Premium",         5000),
+        ("Term Life Insurance Premium",      2500),
+        ("Internet (Broadband + Mobile)",    1500),
+        ("Mobile / DTH Recharge",            1000),
+        ("OTT Subscriptions (Netflix etc.)", 1000),
+        ("Gym / Fitness Membership",         1500),
     ]
     FIXED_START = FIXED_HDR + 1   # 16
     FIXED_END   = FIXED_START + len(fixed) - 1  # 27
@@ -561,11 +561,11 @@ def build_budget(ws):
         exp_row(ws, FIXED_START + i, name, amt)
 
     total_row(ws, FIXED_TOTAL, 2, 2,
-              [(3, f"=SUM(C{FIXED_START}:C{FIXED_END})", '$#,##0.00'),
-               (4, f"=SUM(D{FIXED_START}:D{FIXED_END})", '$#,##0.00'),
-               (5, f"=D{FIXED_TOTAL}-C{FIXED_TOTAL}", '$#,##0.00'),
+              [(3, f"=SUM(C{FIXED_START}:C{FIXED_END})", '₹#,##0.00'),
+               (4, f"=SUM(D{FIXED_START}:D{FIXED_END})", '₹#,##0.00'),
+               (5, f"=D{FIXED_TOTAL}-C{FIXED_TOTAL}", '₹#,##0.00'),
                (6, f"=IF(C{INC_TOTAL}>0,C{FIXED_TOTAL}/C{INC_TOTAL},0)", '0.0%'),
-               (7, f"=C{FIXED_TOTAL}*12", '$#,##0')],
+               (7, f"=C{FIXED_TOTAL}*12", '₹#,##0')],
               "TOTAL FIXED EXPENSES", C_BLUE)
     ws.row_dimensions[FIXED_TOTAL + 1].height = 8
 
@@ -575,20 +575,20 @@ def build_budget(ws):
     ws.row_dimensions[VAR_HDR].height = 22
 
     variable = [
-        ("Groceries & Household Supplies",   600),
-        ("Dining Out & Takeout",             200),
-        ("Gas & Transportation",             150),
-        ("Parking, Tolls & Rideshare",        30),
-        ("Clothing & Apparel",               100),
-        ("Entertainment & Recreation",       100),
-        ("Travel & Vacation",                200),
-        ("Personal Care & Beauty",            80),
-        ("Medical, Dental & Pharmacy",        50),
-        ("Home Maintenance & Repairs",       100),
-        ("Gifts & Charitable Donations",      75),
-        ("Pet Expenses",                       0),
-        ("Childcare & Education",              0),
-        ("Miscellaneous / Catch-All",        100),
+        ("Groceries & Kirana / Supermarket",  12000),
+        ("Dining Out, Zomato & Swiggy",        5000),
+        ("Petrol / CNG & Transport",            5000),
+        ("Auto, Cab (Ola/Uber) & Parking",      2000),
+        ("Clothing & Lifestyle Shopping",        5000),
+        ("Entertainment & Movies / Events",      3000),
+        ("Travel & Holidays",                    8000),
+        ("Personal Care & Salon",                2000),
+        ("Medical, Doctor & Pharmacy",           3000),
+        ("Home Maintenance & Repairs",           2000),
+        ("Gifts, Pooja & Charitable Donations",  3000),
+        ("Pet Expenses",                            0),
+        ("Children's School Fees & Tuition",        0),
+        ("Miscellaneous / Unplanned",             3000),
     ]
     VAR_START = VAR_HDR + 1   # 31
     VAR_END   = VAR_START + len(variable) - 1  # 44
@@ -598,11 +598,11 @@ def build_budget(ws):
         exp_row(ws, VAR_START + i, name, amt)
 
     total_row(ws, VAR_TOTAL, 2, 2,
-              [(3, f"=SUM(C{VAR_START}:C{VAR_END})", '$#,##0.00'),
-               (4, f"=SUM(D{VAR_START}:D{VAR_END})", '$#,##0.00'),
-               (5, f"=D{VAR_TOTAL}-C{VAR_TOTAL}", '$#,##0.00'),
+              [(3, f"=SUM(C{VAR_START}:C{VAR_END})", '₹#,##0.00'),
+               (4, f"=SUM(D{VAR_START}:D{VAR_END})", '₹#,##0.00'),
+               (5, f"=D{VAR_TOTAL}-C{VAR_TOTAL}", '₹#,##0.00'),
                (6, f"=IF(C{INC_TOTAL}>0,C{VAR_TOTAL}/C{INC_TOTAL},0)", '0.0%'),
-               (7, f"=C{VAR_TOTAL}*12", '$#,##0')],
+               (7, f"=C{VAR_TOTAL}*12", '₹#,##0')],
               "TOTAL VARIABLE EXPENSES", C_PURPLE)
     ws.row_dimensions[VAR_TOTAL + 1].height = 8
 
@@ -612,13 +612,13 @@ def build_budget(ws):
     ws.row_dimensions[SAV_HDR].height = 22
 
     savings = [
-        ("401(k) / 403(b) Contribution",     1000),
-        ("Roth IRA Contribution",              500),
-        ("HSA Contribution",                   300),
-        ("Taxable Brokerage Investment",        500),
-        ("Emergency Fund Top-Up",              200),
-        ("House / Goal Savings Fund",            0),
-        ("Other Savings / Sinking Funds",        0),
+        ("EPF Voluntary Contribution (VPF)",  5000),
+        ("PPF Contribution",                  5000),
+        ("NPS Tier-1 / Tier-2 Contribution",  5000),
+        ("Mutual Funds SIP — Equity",        20000),
+        ("Direct Stocks / ETF Investment",   10000),
+        ("Emergency Fund / Liquid FD Top-Up", 5000),
+        ("Goal-based Savings (Travel, Car)",     0),
     ]
     SAV_START = SAV_HDR + 1   # 48
     SAV_END   = SAV_START + len(savings) - 1  # 54
@@ -628,11 +628,11 @@ def build_budget(ws):
         exp_row(ws, SAV_START + i, name, amt)
 
     total_row(ws, SAV_TOTAL, 2, 2,
-              [(3, f"=SUM(C{SAV_START}:C{SAV_END})", '$#,##0.00'),
-               (4, f"=SUM(D{SAV_START}:D{SAV_END})", '$#,##0.00'),
-               (5, f"=D{SAV_TOTAL}-C{SAV_TOTAL}", '$#,##0.00'),
+              [(3, f"=SUM(C{SAV_START}:C{SAV_END})", '₹#,##0.00'),
+               (4, f"=SUM(D{SAV_START}:D{SAV_END})", '₹#,##0.00'),
+               (5, f"=D{SAV_TOTAL}-C{SAV_TOTAL}", '₹#,##0.00'),
                (6, f"=IF(C{INC_TOTAL}>0,C{SAV_TOTAL}/C{INC_TOTAL},0)", '0.0%'),
-               (7, f"=C{SAV_TOTAL}*12", '$#,##0')],
+               (7, f"=C{SAV_TOTAL}*12", '₹#,##0')],
               "TOTAL SAVINGS & INVESTMENTS", C_GOLD)
     ws.row_dimensions[SAV_TOTAL + 1].height = 12
 
@@ -642,10 +642,10 @@ def build_budget(ws):
     ws.row_dimensions[SUMM_HDR].height = 26
 
     SUMM_ITEMS = [
-        (SUMM_HDR+1, "Total Monthly Income",     f"=C{INC_TOTAL}",                           '$#,##0.00', C_LGREEN, C_GREEN),
-        (SUMM_HDR+2, "Total Monthly Expenses",   f"=C{FIXED_TOTAL}+C{VAR_TOTAL}",            '$#,##0.00', C_LRED,   C_RED),
-        (SUMM_HDR+3, "Total Monthly Savings",    f"=C{SAV_TOTAL}",                            '$#,##0.00', C_AMBER,  C_GOLD),
-        (SUMM_HDR+4, "Surplus / Unallocated",    f"=C{INC_TOTAL}-C{FIXED_TOTAL}-C{VAR_TOTAL}-C{SAV_TOTAL}", '$#,##0.00', C_LIGHT, C_BLUE),
+        (SUMM_HDR+1, "Total Monthly Income",     f"=C{INC_TOTAL}",                           '₹#,##0.00', C_LGREEN, C_GREEN),
+        (SUMM_HDR+2, "Total Monthly Expenses",   f"=C{FIXED_TOTAL}+C{VAR_TOTAL}",            '₹#,##0.00', C_LRED,   C_RED),
+        (SUMM_HDR+3, "Total Monthly Savings",    f"=C{SAV_TOTAL}",                            '₹#,##0.00', C_AMBER,  C_GOLD),
+        (SUMM_HDR+4, "Surplus / Unallocated",    f"=C{INC_TOTAL}-C{FIXED_TOTAL}-C{VAR_TOTAL}-C{SAV_TOTAL}", '₹#,##0.00', C_LIGHT, C_BLUE),
         (SUMM_HDR+5, "SAVINGS RATE",             f"=IF(C{INC_TOTAL}>0,C{SAV_TOTAL}/C{INC_TOTAL},0)", '0.0%', C_SKY, C_NAVY),
         (SUMM_HDR+6, "FIRE Projected Savings Rate Target", "50.0%",                           '0.0%', C_LGRAY, C_GRAY),
     ]
@@ -663,12 +663,12 @@ def build_budget(ws):
               border_obj=_thick())
         formula_cell(ws, r, 6,
                      f"=IF(C{r}>0,C{r}*100,0)" if fmt == '0.0%' else f"=C{r}*12",
-                     "0.0\"%\"" if fmt == '0.0%' else '$#,##0',
+                     "0.0\"%\"" if fmt == '0.0%' else '₹#,##0',
                      bg=bg, bold=True, color=fc)
         ws[f"F{r}"].border = _thick()
         formula_cell(ws, r, 7,
                      f'=IF(C{r}>=0.5,"🔥 Excellent!",IF(C{r}>=0.3,"✅ On Track",IF(C{r}>=0.2,"⚠️ Improve","❌ Critical")))' if fmt=='0.0%' else f"=C{r}*12",
-                     "@" if fmt=='0.0%' else '$#,##0',
+                     "@" if fmt=='0.0%' else '₹#,##0',
                      bg=bg, bold=True, color=fc)
         ws[f"G{r}"].border = _thick()
 
@@ -714,7 +714,7 @@ def build_investment_growth(ws):
 
     ws.row_dimensions[1].height = 8
     ws.row_dimensions[2].height = 44
-    hdr(ws, 2, 2, 8, "INVESTMENT GROWTH PROJECTIONS", C_NAVY, 18)
+    hdr(ws, 2, 2, 8, "INVESTMENT GROWTH PROJECTIONS  (₹ INR)", C_NAVY, 18)
     ws.row_dimensions[3].height = 20
     merge(ws, 3, 2, 8,
           '"Compound interest is the eighth wonder of the world. He who understands it, earns it." — Einstein',
@@ -730,16 +730,17 @@ def build_investment_growth(ws):
 
     # Left inputs — rows 6-15, cols B-E
     left_params = [
-        (6,  "Current Age",                      32,     "0",       True),
-        (7,  "Annual Return Rate (nominal)",      0.08,   "0.00%",   True),
-        (8,  "Inflation Rate",                    0.03,   "0.00%",   True),
-        (9,  "Real Return Rate (nom - inflation)","=C7-C8","0.00%",  False),
-        (10, "Starting Portfolio Value ($)",      50000,  '$#,##0',  True),
-        (11, "Monthly Contribution ($)",          2000,   '$#,##0',  True),
-        (12, "Target Retirement Age",             50,     "0",       True),
-        (13, "Annual Retirement Expenses ($)",    "='Budget & Savings'!C28*12+'Budget & Savings'!C45*12", '$#,##0', False),
-        (14, "FIRE Number  (25× annual expenses)","=C13*25", '$#,##0', False),
-        (15, "Years to FIRE",                     "=C12-C6", "0.0",  False),
+        (6,  "Current Age",                            32,      "0",       True),
+        (7,  "Annual Return Rate — Indian Equity",      0.12,   "0.00%",   True),
+        (8,  "Inflation Rate (India CPI average)",      0.06,   "0.00%",   True),
+        (9,  "Real Return Rate (nominal - inflation)", "=C7-C8","0.00%",   False),
+        (10, "Starting Portfolio Value (₹)",          2000000,  '₹#,##0',  True),
+        (11, "Monthly SIP / Contribution (₹)",          50000,  '₹#,##0',  True),
+        (12, "Target Retirement Age",                      50,  "0",        True),
+        (13, "Annual Retirement Expenses (₹)",
+             "='Budget & Savings'!C28*12+'Budget & Savings'!C45*12", '₹#,##0', False),
+        (14, "FIRE Number  (25× annual expenses)",     "=C13*25", '₹#,##0', False),
+        (15, "Years to FIRE",                          "=C12-C6", "0.0",   False),
     ]
 
     for r, lbl_txt, val, fmt, editable in left_params:
@@ -762,18 +763,18 @@ def build_investment_growth(ws):
 
     # Right targets — rows 6-15, cols F-H
     right_targets = [
-        (6,  "Lean FIRE  (20× expenses)",  "=C13*20", '$#,##0'),
-        (7,  "Standard FIRE  (25× expenses)","=C13*25", '$#,##0'),
-        (8,  "Fat FIRE  (33× expenses)",    "=C13*33", '$#,##0'),
-        (9,  "Barista FIRE  (15× expenses)","=C13*15", '$#,##0'),
-        (10, "Annual Expenses  (from Budget)","=C13",  '$#,##0'),
-        (11, "Monthly Income Needed (FIRE)", "=C14*0.04/12", '$#,##0'),
+        (6,  "Lean FIRE  (20× expenses — frugal)",   "=C13*20", '₹#,##0'),
+        (7,  "Standard FIRE  (25× expenses)",         "=C13*25", '₹#,##0'),
+        (8,  "Fat FIRE  (33× expenses — comfortable)","=C13*33", '₹#,##0'),
+        (9,  "CoastFIRE  (15× expenses)",             "=C13*15", '₹#,##0'),
+        (10, "Annual Expenses  (from Budget)",         "=C13",   '₹#,##0'),
+        (11, "Monthly Income Needed at FIRE",          "=C14*0.04/12", '₹#,##0'),
         (12, "Projected Value at Retirement",
-             "=IFERROR(INDEX(G19:G68,MATCH(C12,C19:C68,0)),0)", '$#,##0'),
+             "=IFERROR(INDEX(G19:G68,MATCH(C12,C19:C68,0)),0)", '₹#,##0'),
         (13, "FI Progress % Today",
              "=IFERROR('Net Worth'!C42/C14,0)", '0.0%'),
         (14, "Savings Rate (from Budget)",  "='Budget & Savings'!C62", '0.0%'),
-        (15, "Monthly Contributions × 12",  "=C11*12", '$#,##0'),
+        (15, "Monthly Contributions × 12",  "=C11*12", '₹#,##0'),
     ]
 
     for r, lbl_txt, val, fmt in right_targets:
@@ -831,33 +832,33 @@ def build_investment_growth(ws):
         ws[f"D{r}"].value = ob
         ws[f"D{r}"].font = _font(size=9); ws[f"D{r}"].fill = _fill(alt)
         ws[f"D{r}"].border = _border(); ws[f"D{r}"].alignment = _align("right","center")
-        ws[f"D{r}"].number_format = '$#,##0'
+        ws[f"D{r}"].number_format = '₹#,##0'
 
         # Annual contributions
         ws[f"E{r}"].value = "=C11*12"
         ws[f"E{r}"].font = _font(size=9); ws[f"E{r}"].fill = _fill(alt)
         ws[f"E{r}"].border = _border(); ws[f"E{r}"].alignment = _align("right","center")
-        ws[f"E{r}"].number_format = '$#,##0'
+        ws[f"E{r}"].number_format = '₹#,##0'
 
         # Investment return (on opening balance + half contributions for mid-year approx)
         ws[f"F{r}"].value = f"=(D{r}+E{r}/2)*C7"
         ws[f"F{r}"].font = _font(size=9, color=C_GREEN); ws[f"F{r}"].fill = _fill(alt)
         ws[f"F{r}"].border = _border(); ws[f"F{r}"].alignment = _align("right","center")
-        ws[f"F{r}"].number_format = '$#,##0'
+        ws[f"F{r}"].number_format = '₹#,##0'
 
         # Closing balance
         ws[f"G{r}"].value = f"=D{r}+E{r}+F{r}"
         ws[f"G{r}"].font = _font(size=10, bold=True, color=C_NAVY)
         ws[f"G{r}"].fill = _fill(alt); ws[f"G{r}"].border = _border()
         ws[f"G{r}"].alignment = _align("right","center")
-        ws[f"G{r}"].number_format = '$#,##0'
+        ws[f"G{r}"].number_format = '₹#,##0'
 
         # FIRE Target
         ws[f"H{r}"].value = "=C14"
         ws[f"H{r}"].font = _font(size=9, italic=True, color=C_RED)
         ws[f"H{r}"].fill = _fill(alt); ws[f"H{r}"].border = _border()
         ws[f"H{r}"].alignment = _align("right","center")
-        ws[f"H{r}"].number_format = '$#,##0'
+        ws[f"H{r}"].number_format = '₹#,##0'
 
         # FI %
         ws[f"I{r}"].value = f"=IF(H{r}>0,G{r}/H{r},0)"
@@ -936,10 +937,10 @@ def build_swr(ws):
 
     ws.row_dimensions[1].height = 8
     ws.row_dimensions[2].height = 44
-    hdr(ws, 2, 2, 7, "SAFE WITHDRAWAL RATE & POST-RETIREMENT PLANNER", C_NAVY, 15)
+    hdr(ws, 2, 2, 7, "SAFE WITHDRAWAL RATE & POST-RETIREMENT PLANNER  (₹ INR)", C_NAVY, 14)
     ws.row_dimensions[3].height = 20
     merge(ws, 3, 2, 7,
-          "The 4% Rule: withdraw 4% of portfolio annually — historically survived 95%+ of 30-year retirements (Trinity Study)",
+          "India context: 3.5–4% SWR is conservative. With 12% equity returns & 6% inflation, real return ≈ 6% — portfolios can sustain longer",
           fill_color=C_LIGHT,
           font_obj=_font(size=10, italic=True, color=C_GRAY),
           align_obj=_align("center","center"))
@@ -963,14 +964,14 @@ def build_swr(ws):
     inputs = [
         (7,  "Portfolio at Retirement ($)",
              "=IFERROR(INDEX('Investment Growth'!G19:G68,MATCH('Investment Growth'!C12,'Investment Growth'!C19:C68,0)),0)",
-             '$#,##0', False),
+             '₹#,##0', False),
         (8,  "Annual Expenses in Retirement ($)",
              "='Budget & Savings'!C28*12+'Budget & Savings'!C45*12",
-             '$#,##0', False),
-        (9,  "Inflation Rate",                    0.03,   '0.00%', True),
-        (10, "Safe Withdrawal Rate (SWR)",         0.04,   '0.00%', True),
-        (11, "Expected Portfolio Return Post-FIRE", 0.07,  '0.00%', True),
-        (12, "Retirement Duration (years)",         35,    "0",     True),
+             '₹#,##0', False),
+        (9,  "Inflation Rate (India CPI)",           0.06,   '0.00%', True),
+        (10, "Safe Withdrawal Rate (SWR)",           0.04,   '0.00%', True),
+        (11, "Expected Portfolio Return Post-FIRE",  0.10,   '0.00%', True),
+        (12, "Retirement Duration (years)",           40,    "0",     True),
         (13, "Retirement Age",                     "='Investment Growth'!C12", "0", False),
     ]
 
@@ -1010,12 +1011,12 @@ def build_swr(ws):
         ws[f"E{r}"].alignment = _align("left","center")
 
         ws[f"F{r}"].value = f"=C{PORT_ROW}*{rate}"
-        ws[f"F{r}"].number_format = '$#,##0'; ws[f"F{r}"].border = _border()
+        ws[f"F{r}"].number_format = '₹#,##0'; ws[f"F{r}"].border = _border()
         ws[f"F{r}"].font = _font(size=10, bold=True); ws[f"F{r}"].fill = _fill(C_WHITE)
         ws[f"F{r}"].alignment = _align("right","center")
 
         ws[f"G{r}"].value = f"=C{EXP_ROW}/{rate}"
-        ws[f"G{r}"].number_format = '$#,##0'; ws[f"G{r}"].border = _border()
+        ws[f"G{r}"].number_format = '₹#,##0'; ws[f"G{r}"].border = _border()
         ws[f"G{r}"].font = _font(size=10, bold=True, color=color)
         ws[f"G{r}"].fill = _fill(C_LIGHT); ws[f"G{r}"].alignment = _align("right","center")
 
@@ -1026,10 +1027,10 @@ def build_swr(ws):
     ws.row_dimensions[15].height = 22
 
     viability = [
-        (16, "Your Annual Withdrawal (at chosen SWR)", f"=C{PORT_ROW}*C{SWR_ROW}", '$#,##0', C_LGREEN, C_GREEN),
-        (17, "Monthly Retirement Income",  f"=C{PORT_ROW}*C{SWR_ROW}/12", '$#,##0.00', C_LGREEN, C_GREEN),
-        (18, "FIRE Number Needed (your expenses÷SWR)", f"=C{EXP_ROW}/C{SWR_ROW}", '$#,##0', C_AMBER, C_GOLD),
-        (19, "Portfolio Surplus / Deficit vs FIRE#", f"=C{PORT_ROW}-C{EXP_ROW}/C{SWR_ROW}", '$#,##0', C_LIGHT, C_BLUE),
+        (16, "Your Annual Withdrawal (at chosen SWR)", f"=C{PORT_ROW}*C{SWR_ROW}", '₹#,##0', C_LGREEN, C_GREEN),
+        (17, "Monthly Retirement Income",  f"=C{PORT_ROW}*C{SWR_ROW}/12", '₹#,##0.00', C_LGREEN, C_GREEN),
+        (18, "FIRE Number Needed (your expenses÷SWR)", f"=C{EXP_ROW}/C{SWR_ROW}", '₹#,##0', C_AMBER, C_GOLD),
+        (19, "Portfolio Surplus / Deficit vs FIRE#", f"=C{PORT_ROW}-C{EXP_ROW}/C{SWR_ROW}", '₹#,##0', C_LIGHT, C_BLUE),
         (20, "FIRE READY?",
              f'=IF(C{PORT_ROW}>=C{EXP_ROW}/C{SWR_ROW},"✅ YES — You Have Achieved FIRE!","⏳ Not Yet — Keep Going!")',
              "@", C_LIGHT, C_NAVY),
@@ -1097,25 +1098,25 @@ def build_swr(ws):
         ws[f"D{r}"].value = sb
         ws[f"D{r}"].font = _font(size=9); ws[f"D{r}"].fill = _fill(alt)
         ws[f"D{r}"].border = _border(); ws[f"D{r}"].alignment = _align("right","center")
-        ws[f"D{r}"].number_format = '$#,##0'
+        ws[f"D{r}"].number_format = '₹#,##0'
 
         # Inflation-adjusted withdrawal
         ws[f"E{r}"].value = f"=C{EXP_ROW}*(1+C{INF_ROW})^{yr-1}"
         ws[f"E{r}"].font = _font(size=9, color=C_RED); ws[f"E{r}"].fill = _fill(alt)
         ws[f"E{r}"].border = _border(); ws[f"E{r}"].alignment = _align("right","center")
-        ws[f"E{r}"].number_format = '$#,##0'
+        ws[f"E{r}"].number_format = '₹#,##0'
 
         # Return (on end-of-period balance after withdrawal)
         ws[f"F{r}"].value = f"=MAX(D{r}-E{r},0)*C{RET_ROW}"
         ws[f"F{r}"].font = _font(size=9, color=C_GREEN); ws[f"F{r}"].fill = _fill(alt)
         ws[f"F{r}"].border = _border(); ws[f"F{r}"].alignment = _align("right","center")
-        ws[f"F{r}"].number_format = '$#,##0'
+        ws[f"F{r}"].number_format = '₹#,##0'
 
         # End balance
         ws[f"G{r}"].value = f"=MAX(D{r}-E{r}+F{r},0)"
         ws[f"G{r}"].font = _font(size=10, bold=True); ws[f"G{r}"].fill = _fill(alt)
         ws[f"G{r}"].border = _border(); ws[f"G{r}"].alignment = _align("right","center")
-        ws[f"G{r}"].number_format = '$#,##0'
+        ws[f"G{r}"].number_format = '₹#,##0'
 
         # Status
         ws[f"H{r}"].value = (
