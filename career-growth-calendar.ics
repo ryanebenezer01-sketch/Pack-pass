@@ -1,0 +1,265 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Ryan Ebenezer G//Career Growth Calendar 2026-2031//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Ryan — Career Growth 2026–2031
+X-WR-CALDESC:Prioritized deadlines from the 5-year career plan (internships, CAT/NMAT/GMAT, scholarships, Pack and Pass business milestones)
+BEGIN:VEVENT
+UID:cat-reg-opens-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20260801
+DTEND;VALUE=DATE:20260802
+SUMMARY:[P1] CAT 2026 registration OPENS — register today
+DESCRIPTION:Register at iimcat.ac.in (fee ~Rs 2600). Final-year students allowed. Exam is Nov 29 2026. Also start applying to Google / Amazon / Microsoft / Freshworks internship portals (open Aug–Oct for summer 2027).
+END:VEVENT
+BEGIN:VEVENT
+UID:nmat-reg-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20260815
+DTEND;VALUE=DATE:20260816
+SUMMARY:[P1] Register NMAT by GMAC (3 attempts allowed)
+DESCRIPTION:mba.com/exams/nmat — Rs 3000 per attempt. Registration open Aug to mid-Oct. Exam window Nov–Dec 2026. Backup to CAT.
+END:VEVENT
+BEGIN:VEVENT
+UID:infosys-tcs-apply-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20260901
+DTEND;VALUE=DATE:20260902
+SUMMARY:[P1] Apply Infosys InStep + TCS internships (April 2027 cycle)
+DESCRIPTION:InStep: infosys.com/instep/internship.html · TCS: tcs.com/careers/india/internship. Very competitive — apply early.
+END:VEVENT
+BEGIN:VEVENT
+UID:cat-reg-closes-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20260918
+DTEND;VALUE=DATE:20260919
+SUMMARY:[P1] CAT registration CLOSES ~Sep 20 — final check
+DESCRIPTION:Confirm CAT registration is complete and admit card details are correct.
+END:VEVENT
+BEGIN:VEVENT
+UID:mnc-apply-oct-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:[P1] Apply Wipro + Accenture + IBM + Cognizant + HCL internships
+DESCRIPTION:October wave from the internship tracker. Digital marketing / brand / content roles for the April 2027 start.
+END:VEVENT
+BEGIN:VEVENT
+UID:nmat-closes-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:[P1] NMAT registration closes mid-Oct — final check
+DESCRIPTION:Confirm NMAT registration and book exam slot(s) for Nov–Dec window.
+END:VEVENT
+BEGIN:VEVENT
+UID:saas-apply-nov-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:[P1] Apply Zoho + Freshworks (Chennai) + Razorpay + Swiggy + Flipkart
+DESCRIPTION:November wave — product/SaaS companies. Best learning for Pack and Pass marketing skills.
+END:VEVENT
+BEGIN:VEVENT
+UID:cat-exam-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:[P1] CAT 2026 EXAM DAY
+DESCRIPTION:Keeps the Indian MBA option open. NMAT window also runs Nov–Dec.
+END:VEVENT
+BEGIN:VEVENT
+UID:kerala-tn-apply-2026@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+SUMMARY:[P1] Apply Kerala + Tamil Nadu companies (incl. IBS Software — travel tech!)
+DESCRIPTION:December wave: UST Global, IBS Software (travel-tech, directly relevant to Pack and Pass), Tata Elxsi, Infosys BPM, SpiderWorks, Zuan, Codingmart, W3Squad.
+END:VEVENT
+BEGIN:VEVENT
+UID:followup-jan-2027@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20270104
+DTEND;VALUE=DATE:20270105
+SUMMARY:[P1] Follow up ALL internship applications + apply agencies as backup
+DESCRIPTION:Chase every pending application. If no MNC offer, apply digital agencies (Zuan, SpiderWorks, W3Squad) — portfolio-building first internship.
+END:VEVENT
+BEGIN:VEVENT
+UID:internship-start-2027@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20270401
+DTEND;VALUE=DATE:20270402
+SUMMARY:[P1] Graduation month — START INTERNSHIP
+DESCRIPTION:Coursework complete. Internship April–July 2027. Cover all 5 skill areas: SEO, paid ads, funnels/email, content/social, analytics.
+END:VEVENT
+BEGIN:VEVENT
+UID:convert-offer-2027@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20270615
+DTEND;VALUE=DATE:20270616
+SUMMARY:[P1] Push to convert internship → full-time offer
+DESCRIPTION:Ask about conversion now, before the internship ends. If no conversion path, start applying out with the internship as proof.
+END:VEVENT
+BEGIN:VEVENT
+UID:schwarzman-um-2027@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20270901
+DTEND;VALUE=DATE:20270902
+SUMMARY:[P1] Schwarzman Scholars deadline (Sep) + contact UM supervisors
+DESCRIPTION:Schwarzman (Tsinghua) has an under-29 age limit — check eligibility and apply this cycle if needed. Also email University of Malaya supervisors for the Oct 2027 scholarship cycle.
+END:VEVENT
+BEGIN:VEVENT
+UID:gmat-take-2027@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20271001
+DTEND;VALUE=DATE:20271002
+SUMMARY:[P2] Take GMAT (target 650–680+)
+DESCRIPTION:Score valid 5 years — banked for NUS/NTU 2030 applications. mba.com/exams/gmat-focus-edition
+END:VEVENT
+BEGIN:VEVENT
+UID:csc-prep-2027@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20271101
+DTEND;VALUE=DATE:20271102
+SUMMARY:[P1] Start CSC (China) scholarship application prep
+DESCRIPTION:Highest-odds full scholarship (35–50%). Full tuition + RMB 3000/month + accommodation. Apply BOTH embassy track (Type A) and university track (Type B). chinesescholarshipcouncil.com
+END:VEVENT
+BEGIN:VEVENT
+UID:path-decision-2027@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20271201
+DTEND;VALUE=DATE:20271202
+SUMMARY:[P1] DECISION POINT: Path A (MBA now) vs Path B (work 3 years)
+DESCRIPTION:Path A if no strong job or a full-ride comes through. Path B (default) if you have a good tech marketing job — experience + salary funds Pack and Pass and strengthens Chevening/NUS/NTU. Also: Aga Khan Foundation application this month.
+END:VEVENT
+BEGIN:VEVENT
+UID:tipp-apply-2028@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20280105
+DTEND;VALUE=DATE:20280106
+SUMMARY:[P1·Path A] Apply Thailand TIPP scholarship
+DESCRIPTION:2nd highest odds (30–45%). Chulalongkorn/Thammasat English MBA. Full tuition + THB 7000/month. mua.go.th/users/tipp
+END:VEVENT
+BEGIN:VEVENT
+UID:packpass-launch-2028@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20280115
+DTEND;VALUE=DATE:20280116
+SUMMARY:[P3·Path B] LAUNCH Pack and Pass as a side business
+DESCRIPTION:Register sole proprietorship/MSME + GST. Plan first paid group trip (6–12 people, Bali/Vietnam budget tier ~Rs 50k/head). Learn visa-filing workflows, supplier negotiation, agency accounting. Optional: IATA Foundation cert.
+END:VEVENT
+BEGIN:VEVENT
+UID:brunei-contact-2028@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20280201
+DTEND;VALUE=DATE:20280202
+SUMMARY:[P1·Path A] Contact Brunei High Commission (New Delhi)
+DESCRIPTION:Brunei Government Scholarship — massively undersubscribed by Indians. Deadline May 2028. Full tuition + BND 500/month + accommodation + airfare.
+END:VEVENT
+BEGIN:VEVENT
+UID:csc-deadline-2028@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20280315
+DTEND;VALUE=DATE:20280316
+SUMMARY:[P1·Path A] CSC China — Embassy deadline Mar 15
+DESCRIPTION:Final submission for Chinese Government Scholarship, embassy track.
+END:VEVENT
+BEGIN:VEVENT
+UID:agakhan-deadline-2028@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20280331
+DTEND;VALUE=DATE:20280401
+SUMMARY:[P1·Path A] Aga Khan Foundation deadline Mar 31
+DESCRIPTION:50% grant + 50% loan. Requires university admission secured first.
+END:VEVENT
+BEGIN:VEVENT
+UID:dikti-deadline-2028@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20280403
+DTEND;VALUE=DATE:20280404
+SUMMARY:[P1·Path A] Indonesia DIKTI scholarship deadline (April)
+DESCRIPTION:UI/UGM English MBA. Very few Indian applicants. Also Thailand TIPP final deadline is Mar–Apr.
+END:VEVENT
+BEGIN:VEVENT
+UID:brunei-cimb-2028@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20280501
+DTEND;VALUE=DATE:20280502
+SUMMARY:[P1·Path A] Brunei deadline (May) + CIMB ASEAN (May–Jun)
+DESCRIPTION:Fallback if all scholarships fail: self-fund UNITAR 100% online MBA (Rs 2.76L total, study from India while working) or FTU Hanoi (Rs 2.5–4.2L).
+END:VEVENT
+BEGIN:VEVENT
+UID:fulbright-2028@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20280715
+DTEND;VALUE=DATE:20280716
+SUMMARY:[P1·optional] Fulbright-Nehru window opens (USA route)
+DESCRIPTION:Essays take ~6 months to write well. Only if the USA route interests you. usief.org.in
+END:VEVENT
+BEGIN:VEVENT
+UID:chevening-essays-2029@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20290801
+DTEND;VALUE=DATE:20290802
+SUMMARY:[P1·Path B] Start Chevening essays (deadline November)
+DESCRIPTION:4 essays. 150+ India awards/year. You'll have 2+ years of experience by now — required minimum met. chevening.org/apply
+END:VEVENT
+BEGIN:VEVENT
+UID:chevening-deadline-2029@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20291101
+DTEND;VALUE=DATE:20291102
+SUMMARY:[P1·Path B] Chevening deadline (November 2029)
+DESCRIPTION:Full tuition + stipend + flights + visa, any UK university.
+END:VEVENT
+BEGIN:VEVENT
+UID:sisgp-2030@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20300201
+DTEND;VALUE=DATE:20300202
+SUMMARY:[P1·Path B] Swedish Institute SISGP deadline (February)
+DESCRIPTION:Requires 3000 logged work/volunteer hours — you have been logging since 2027. Full tuition + SEK 11000/month + travel.
+END:VEVENT
+BEGIN:VEVENT
+UID:adb-japan-2030@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20300215
+DTEND;VALUE=DATE:20300216
+SUMMARY:[P1·Path B] ADB-Japan Scholarship window (Feb–Apr 2030)
+DESCRIPTION:One of the most India-friendly Asia scholarships. Full tuition + stipend + airfare.
+END:VEVENT
+BEGIN:VEVENT
+UID:rotary-2030@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20300501
+DTEND;VALUE=DATE:20300502
+SUMMARY:[P1·Path B] Rotary Peace Fellowship deadline (May)
+DESCRIPTION:Needs 3+ years experience AND the Rotary Club relationship you started building in 2028.
+END:VEVENT
+BEGIN:VEVENT
+UID:nus-r1-2030@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20301001
+DTEND;VALUE=DATE:20301002
+SUMMARY:[P1·Path B] NUS MBA Round 1 opens (October 2030)
+DESCRIPTION:GMAT 680+ (banked from 2027) + 3 yrs experience = competitive. Scholarship SGD 20k–60k possible.
+END:VEVENT
+BEGIN:VEVENT
+UID:ntu-r1-2030@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20301101
+DTEND;VALUE=DATE:20301102
+SUMMARY:[P1·Path B] NTU Nanyang MBA Round 1 (November 2030)
+DESCRIPTION:More accessible than NUS. 2.8 CGPA + GMAT 650+ + experience = strong profile. Scholarship SGD 10k–40k.
+END:VEVENT
+BEGIN:VEVENT
+UID:annual-review-2027@ryan-career
+DTSTAMP:20260707T000000Z
+DTSTART;VALUE=DATE:20270102
+DTEND;VALUE=DATE:20270103
+RRULE:FREQ=YEARLY;UNTIL=20310102
+SUMMARY:[P1] ANNUAL REVIEW — re-verify every deadline on official portals
+DESCRIPTION:Scholarship and exam dates shift year to year. Re-check all upcoming deadlines in CAREER_GROWTH_CALENDAR.md and update the Drive trackers.
+END:VEVENT
+END:VCALENDAR
