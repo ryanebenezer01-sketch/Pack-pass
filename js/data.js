@@ -40,9 +40,9 @@
         "All of Europe (including European Russia to the Ural mountains), the " +
         "whole of Africa, and the Middle East west of and including Iran.",
       subareas: [
-        "Europe (incl. European Russia, Turkey)",
-        "Middle East (up to and including Iran)",
-        "Africa (Northern, Western, Central, Eastern, Southern & Indian-Ocean)"
+        "Europe — geographic Europe incl. European Russia (west of the Urals) and Türkiye, PLUS a famous quirk: Israel and the Maghreb (Morocco, Algeria, Tunisia) count as IATA 'Europe'",
+        "Middle East — the Arabian peninsula up to and including Iran, PLUS another quirk: Egypt and Sudan belong to the Middle East sub-area, not Africa",
+        "Africa — the rest of the continent (Western, Central, Eastern, Southern Africa, Libya) and the Indian-Ocean islands"
       ]
     },
     TC3: {
@@ -112,12 +112,12 @@
     { iata: "DOH", city: "Doha",           country: "Qatar",        area: "TC2", sub: "Middle East", lat: 25.2731, lng: 51.6081, terminals: ["Hamad Int'l — Concourses A–E"] },
     { iata: "JED", city: "Jeddah",         country: "Saudi Arabia", area: "TC2", sub: "Middle East", lat: 21.6796, lng: 39.1565, terminals: ["T1", "North / South / Hajj"] },
     { iata: "THR", city: "Tehran",         country: "Iran",         area: "TC2", sub: "Middle East", lat: 35.4161, lng: 51.1522, terminals: ["IKA Int'l"] },
-    { iata: "CAI", city: "Cairo",          country: "Egypt",        area: "TC2", sub: "Africa", lat: 30.1219, lng: 31.4056, terminals: ["T1", "T2", "T3"] },
+    { iata: "CAI", city: "Cairo",          country: "Egypt",        area: "TC2", sub: "Middle East (IATA quirk — Egypt counts here, not Africa)", lat: 30.1219, lng: 31.4056, terminals: ["T1", "T2", "T3"] },
     { iata: "JNB", city: "Johannesburg",   country: "South Africa", area: "TC2", sub: "Africa", lat: -26.1367, lng: 28.2411, terminals: ["Domestic", "International (A/B)"] },
     { iata: "NBO", city: "Nairobi",        country: "Kenya",        area: "TC2", sub: "Africa", lat: -1.3192, lng: 36.9278, terminals: ["T1 (A–E)", "T2"] },
     { iata: "ADD", city: "Addis Ababa",    country: "Ethiopia",     area: "TC2", sub: "Africa", lat: 8.9779, lng: 38.7993, terminals: ["T1 (domestic)", "T2 (int'l)"] },
     { iata: "LOS", city: "Lagos",          country: "Nigeria",      area: "TC2", sub: "Africa", lat: 6.5774, lng: 3.3212, terminals: ["Int'l (MMIA)", "Domestic"] },
-    { iata: "CMN", city: "Casablanca",     country: "Morocco",      area: "TC2", sub: "Africa", lat: 33.3675, lng: -7.5899, terminals: ["T1", "T2"] },
+    { iata: "CMN", city: "Casablanca",     country: "Morocco",      area: "TC2", sub: "Europe sub-area (IATA quirk — the Maghreb counts as Europe)", lat: 33.3675, lng: -7.5899, terminals: ["T1", "T2"] },
 
     // ---- TC3 : ASIA / PACIFIC ----
     { iata: "DEL", city: "Delhi",          country: "India",        area: "TC3", sub: "South Asian Subcontinent", lat: 28.5562, lng: 77.1000, terminals: ["T1 (domestic low-cost)", "T2 (domestic)", "T3 (full-service + all int'l)"] },
@@ -135,6 +135,7 @@
     { iata: "HKG", city: "Hong Kong",      country: "Hong Kong",    area: "TC3", sub: "Japan / Korea / China", lat: 22.3080, lng: 113.9185, terminals: ["T1", "Midfield concourse"] },
     { iata: "PEK", city: "Beijing",        country: "China",        area: "TC3", sub: "Japan / Korea / China", lat: 40.0799, lng: 116.6031, terminals: ["T1", "T2", "T3"] },
     { iata: "PVG", city: "Shanghai",       country: "China",        area: "TC3", sub: "Japan / Korea / China", lat: 31.1443, lng: 121.8083, terminals: ["T1", "T2"] },
+    { iata: "KIX", city: "Osaka — Kansai", country: "Japan",        area: "TC3", sub: "Japan / Korea / China", lat: 34.4342, lng: 135.2440, terminals: ["T1", "T2 (low-cost)"] },
     { iata: "NRT", city: "Tokyo — Narita", country: "Japan",        area: "TC3", sub: "Japan / Korea / China", lat: 35.7720, lng: 140.3929, terminals: ["T1", "T2", "T3 (low-cost)"] },
     { iata: "HND", city: "Tokyo — Haneda", country: "Japan",        area: "TC3", sub: "Japan / Korea / China", lat: 35.5494, lng: 139.7798, terminals: ["T1", "T2", "T3 (int'l)"] },
     { iata: "ICN", city: "Seoul",          country: "South Korea",  area: "TC3", sub: "Japan / Korea / China", lat: 37.4602, lng: 126.4407, terminals: ["T1", "T2 (Korean Air/SkyTeam)"] },
@@ -200,6 +201,7 @@
     HKG: { hub: "Cathay Pacific", specialty: "Hong Kong — the gateway to mainland China and a top-3 world cargo airport." },
     PEK: { hub: "Air China", specialty: "Beijing Capital — China's flag hub." },
     PVG: { hub: "China Eastern", specialty: "Shanghai Pudong — China's international & cargo gateway." },
+    KIX: { hub: "JAL · ANA · Peach", specialty: "Osaka Kansai — built on an artificial island in Osaka Bay; the western-Japan gateway (city code OSA)." },
     NRT: { hub: "Japan Airlines · ANA", specialty: "Tokyo Narita — Japan's long-haul international gateway." },
     HND: { hub: "Japan Airlines · ANA", specialty: "Tokyo Haneda — the close-in airport, increasingly international." },
     ICN: { hub: "Korean Air · Asiana", specialty: "Seoul Incheon — Korea's award-winning hub." },
@@ -211,6 +213,98 @@
     const n = AIRPORT_NOTES[a.iata];
     if (n) { a.hub = n.hub; a.specialty = n.specialty; }
   });
+
+  /* ----------------------------------------------------------------------
+     2c. CITY (METRO) CODES — one 3-letter code for a whole city; its
+     airports have their own codes. The exam favourites are the multi-
+     airport metros (SEL, TYO, OSA, LON, NYC, JKT …).
+     ---------------------------------------------------------------------- */
+  const CITY_CODES = [
+    { code: "SEL", city: "Seoul",        country: "South Korea", airports: [{ c: "ICN", n: "Incheon Int'l" }, { c: "GMP", n: "Gimpo" }] },
+    { code: "TYO", city: "Tokyo",        country: "Japan",       airports: [{ c: "NRT", n: "Narita" }, { c: "HND", n: "Haneda" }] },
+    { code: "OSA", city: "Osaka",        country: "Japan",       airports: [{ c: "KIX", n: "Kansai" }, { c: "ITM", n: "Itami" }, { c: "UKB", n: "Kobe" }] },
+    { code: "BJS", city: "Beijing",      country: "China",       airports: [{ c: "PEK", n: "Capital" }, { c: "PKX", n: "Daxing" }] },
+    { code: "SHA", city: "Shanghai",     country: "China",       airports: [{ c: "PVG", n: "Pudong" }, { c: "SHA", n: "Hongqiao" }] },
+    { code: "JKT", city: "Jakarta",      country: "Indonesia",   airports: [{ c: "CGK", n: "Soekarno-Hatta" }, { c: "HLP", n: "Halim" }] },
+    { code: "BKK", city: "Bangkok",      country: "Thailand",    airports: [{ c: "BKK", n: "Suvarnabhumi" }, { c: "DMK", n: "Don Mueang" }] },
+    { code: "LON", city: "London",       country: "United Kingdom", airports: [{ c: "LHR", n: "Heathrow" }, { c: "LGW", n: "Gatwick" }, { c: "STN", n: "Stansted" }, { c: "LTN", n: "Luton" }, { c: "LCY", n: "City" }] },
+    { code: "PAR", city: "Paris",        country: "France",      airports: [{ c: "CDG", n: "Charles de Gaulle" }, { c: "ORY", n: "Orly" }] },
+    { code: "MIL", city: "Milan",        country: "Italy",       airports: [{ c: "MXP", n: "Malpensa" }, { c: "LIN", n: "Linate" }, { c: "BGY", n: "Bergamo" }] },
+    { code: "ROM", city: "Rome",         country: "Italy",       airports: [{ c: "FCO", n: "Fiumicino" }, { c: "CIA", n: "Ciampino" }] },
+    { code: "MOW", city: "Moscow",       country: "Russia",      airports: [{ c: "SVO", n: "Sheremetyevo" }, { c: "DME", n: "Domodedovo" }, { c: "VKO", n: "Vnukovo" }] },
+    { code: "NYC", city: "New York",     country: "USA",         airports: [{ c: "JFK", n: "John F. Kennedy" }, { c: "EWR", n: "Newark" }, { c: "LGA", n: "LaGuardia" }] },
+    { code: "WAS", city: "Washington",   country: "USA",         airports: [{ c: "IAD", n: "Dulles" }, { c: "DCA", n: "Reagan National" }, { c: "BWI", n: "Baltimore" }] },
+    { code: "CHI", city: "Chicago",      country: "USA",         airports: [{ c: "ORD", n: "O'Hare" }, { c: "MDW", n: "Midway" }] },
+    { code: "YTO", city: "Toronto",      country: "Canada",      airports: [{ c: "YYZ", n: "Pearson" }, { c: "YTZ", n: "Billy Bishop (Island)" }] },
+    { code: "SAO", city: "São Paulo",    country: "Brazil",      airports: [{ c: "GRU", n: "Guarulhos" }, { c: "CGH", n: "Congonhas" }, { c: "VCP", n: "Campinas" }] },
+    { code: "RIO", city: "Rio de Janeiro", country: "Brazil",    airports: [{ c: "GIG", n: "Galeão" }, { c: "SDU", n: "Santos Dumont" }] },
+    { code: "BUE", city: "Buenos Aires", country: "Argentina",   airports: [{ c: "EZE", n: "Ezeiza" }, { c: "AEP", n: "Aeroparque" }] },
+    { code: "JNB", city: "Johannesburg", country: "South Africa", airports: [{ c: "JNB", n: "O.R. Tambo (city & airport share the code)" }] },
+    { code: "SIN", city: "Singapore",    country: "Singapore",   airports: [{ c: "SIN", n: "Changi (city = airport code)" }] },
+    { code: "DXB", city: "Dubai",        country: "UAE",         airports: [{ c: "DXB", n: "Dubai Int'l" }, { c: "DWC", n: "Al Maktoum" }] }
+  ];
+
+  /* ----------------------------------------------------------------------
+     2d. AIRLINE CODES — 2-letter IATA designator + 3-digit ticketing
+     (accounting) prefix, home country and alliance.
+     ---------------------------------------------------------------------- */
+  const AIRLINES = [
+    { code: "CX", name: "Cathay Pacific Airways", country: "Hong Kong",   prefix: "160", alliance: "oneworld" },
+    { code: "BA", name: "British Airways",        country: "United Kingdom", prefix: "125", alliance: "oneworld" },
+    { code: "AA", name: "American Airlines",      country: "USA",         prefix: "001", alliance: "oneworld" },
+    { code: "QF", name: "Qantas",                 country: "Australia",   prefix: "081", alliance: "oneworld" },
+    { code: "QR", name: "Qatar Airways",          country: "Qatar",       prefix: "157", alliance: "oneworld" },
+    { code: "JL", name: "Japan Airlines (JAL)",   country: "Japan",       prefix: "131", alliance: "oneworld" },
+    { code: "RJ", name: "Royal Jordanian",        country: "Jordan",      prefix: "512", alliance: "oneworld" },
+    { code: "UL", name: "SriLankan Airlines",     country: "Sri Lanka",   prefix: "603", alliance: "oneworld" },
+    { code: "MH", name: "Malaysia Airlines",      country: "Malaysia",    prefix: "232", alliance: "oneworld" },
+    { code: "LH", name: "Lufthansa",              country: "Germany",     prefix: "220", alliance: "Star Alliance" },
+    { code: "UA", name: "United Airlines",        country: "USA",         prefix: "016", alliance: "Star Alliance" },
+    { code: "AC", name: "Air Canada",             country: "Canada",      prefix: "014", alliance: "Star Alliance" },
+    { code: "NH", name: "ANA — All Nippon Airways", country: "Japan",     prefix: "205", alliance: "Star Alliance" },
+    { code: "OZ", name: "Asiana Airlines",        country: "South Korea", prefix: "988", alliance: "Star Alliance" },
+    { code: "SQ", name: "Singapore Airlines",     country: "Singapore",   prefix: "618", alliance: "Star Alliance" },
+    { code: "TG", name: "Thai Airways",           country: "Thailand",    prefix: "217", alliance: "Star Alliance" },
+    { code: "TK", name: "Turkish Airlines",       country: "Türkiye",     prefix: "235", alliance: "Star Alliance" },
+    { code: "ET", name: "Ethiopian Airlines",     country: "Ethiopia",    prefix: "071", alliance: "Star Alliance" },
+    { code: "SA", name: "South African Airways",  country: "South Africa", prefix: "083", alliance: "Star Alliance" },
+    { code: "MS", name: "EgyptAir",               country: "Egypt",       prefix: "077", alliance: "Star Alliance" },
+    { code: "AI", name: "Air India",              country: "India",       prefix: "098", alliance: "Star Alliance" },
+    { code: "LX", name: "SWISS",                  country: "Switzerland", prefix: "724", alliance: "Star Alliance" },
+    { code: "NZ", name: "Air New Zealand",        country: "New Zealand", prefix: "086", alliance: "Star Alliance" },
+    { code: "AV", name: "Avianca",                country: "Colombia",    prefix: "134", alliance: "Star Alliance" },
+    { code: "CA", name: "Air China",              country: "China",       prefix: "999", alliance: "Star Alliance" },
+    { code: "AF", name: "Air France",             country: "France",      prefix: "057", alliance: "SkyTeam" },
+    { code: "KL", name: "KLM Royal Dutch",        country: "Netherlands", prefix: "074", alliance: "SkyTeam" },
+    { code: "DL", name: "Delta Air Lines",        country: "USA",         prefix: "006", alliance: "SkyTeam" },
+    { code: "KE", name: "Korean Air",             country: "South Korea", prefix: "180", alliance: "SkyTeam" },
+    { code: "MU", name: "China Eastern",          country: "China",       prefix: "781", alliance: "SkyTeam" },
+    { code: "GA", name: "Garuda Indonesia",       country: "Indonesia",   prefix: "126", alliance: "SkyTeam" },
+    { code: "KQ", name: "Kenya Airways",          country: "Kenya",       prefix: "706", alliance: "SkyTeam" },
+    { code: "AM", name: "Aeroméxico",             country: "Mexico",      prefix: "139", alliance: "SkyTeam" },
+    { code: "SU", name: "Aeroflot",               country: "Russia",      prefix: "555", alliance: "—" },
+    { code: "EK", name: "Emirates",               country: "UAE",         prefix: "176", alliance: "independent" },
+    { code: "EY", name: "Etihad Airways",         country: "UAE",         prefix: "607", alliance: "independent" },
+    { code: "PR", name: "Philippine Airlines",    country: "Philippines", prefix: "079", alliance: "independent" },
+    { code: "LA", name: "LATAM Airlines",         country: "Chile/Brazil", prefix: "045", alliance: "independent" },
+    { code: "6E", name: "IndiGo",                 country: "India",       prefix: "312", alliance: "independent (LCC)" },
+    { code: "B6", name: "JetBlue",                country: "USA",         prefix: "279", alliance: "independent (LCC)" },
+    { code: "VS", name: "Virgin Atlantic",        country: "United Kingdom", prefix: "932", alliance: "SkyTeam" }
+  ];
+
+  /* ----------------------------------------------------------------------
+     2e. NUC -> LOCAL CURRENCY ROUNDING EXERCISE
+     LCF = NUC × ROE, then rounded UP to the currency's fare-rounding unit.
+     ROEs are illustrative — replace with the values from your course/IATA
+     table (all fields are editable in the Fare Lab).
+     ---------------------------------------------------------------------- */
+  const ROUNDING_EXERCISE = [
+    { country: "Australia",         ccy: "AUD", roe: 1.52,  unit: 1,   nuc: 897 },
+    { country: "Japan",             ccy: "JPY", roe: 148.0, unit: 100, nuc: 670 },
+    { country: "USA",               ccy: "USD", roe: 1.0,   unit: 1,   nuc: 3920 },
+    { country: "France (Eurozone)", ccy: "EUR", roe: 0.92,  unit: 1,   nuc: 1293 },
+    { country: "Jordan",            ccy: "JOD", roe: 0.709, unit: 0.1, nuc: 3928.12 }
+  ];
 
   /* ----------------------------------------------------------------------
      3. CARRIERS referenced in the sample routings
@@ -315,6 +409,26 @@
       ]
     },
     {
+      group: "Types of journeys (OW · RT · CT · OJ · RTW)",
+      items: [
+        { term: "OW — One Way", body: "Origin to destination with no return, priced with one-way fares. Routing example: <code>AUH –AI→ DEL –UL→ CMB</code> (Abu Dhabi to Colombo via Delhi). Minimum checks: HIP and the Backhaul Check (BHC)." },
+        { term: "RT — Round / Return Trip", body: "Out and back between the same two points where BOTH directions use the same fare level — priced as two half-round-trip (½RT) fares. Example: <code>LHR ⇄ JFK</code> (London–New York–London on BA)." },
+        { term: "CT — Circle Trip", body: "You return to the origin but via a DIFFERENT route, so it's a loop. Example: <code>BKK –TG→ SIN –SQ→ KUL –MH→ BKK</code>. Priced from ½RT fares per component; the <b>Circle Trip Minimum (CTM)</b> check applies." },
+        { term: "OJ — Open Jaw", body: "A round trip with a 'gap' the passenger covers on the ground. <b>Turnaround OJ</b>: out to one city, back from another (<code>DEL→LHR … CDG→DEL</code>). <b>Origin OJ</b>: return lands at a different point in the origin country (<code>DEL→LHR / LHR→BOM</code>). <b>Double OJ</b>: gaps at both ends (<code>DEL→LHR / CDG→BOM</code>)." },
+        { term: "RTW — Round the World", body: "A continuous journey crossing BOTH the Atlantic and the Pacific once — Global Indicator <b>AP</b>. Example: <code>LHR→JFK→LAX→SYD→SIN→LHR</code>. Sold as alliance RTW products (oneworld Explorer, Star Alliance RTW)." },
+        { term: "How the type changes pricing", body: "OW journeys use one-way fares + HIP/BHC. RT/CT/OJ are built from half-round-trip fares per component, then checked against the minimums: <b>CTM</b> for circle trips, <b>COM/OJ minima</b> for open jaws. Always identify the journey type FIRST — it decides every later step." }
+      ]
+    },
+    {
+      group: "Codeshare, interline & connecting rules",
+      items: [
+        { term: "Codeshare", body: "One flight, several flight numbers. A <b>marketing carrier</b> sells the flight under its own code while the <b>operating carrier</b> actually flies it — e.g. <code>AY5952</code> operated by British Airways. The ticket shows 'operated by …'. Codeshares let alliances sell seamless itineraries; your baggage rules usually follow the marketing carrier, the service follows the operator." },
+        { term: "Interline agreement", body: "A pact between airlines to accept each other's tickets and through-check baggage — the plumbing that lets one ticket cover AUH on Air India and DEL→CMB on SriLankan." },
+        { term: "MCT — Minimum Connecting Time", body: "The shortest legal gap between an arriving and a departing flight at an airport, published per airport/terminal combination. E.g. an international→international change at LHR between T3 and T5 needs more time than a same-terminal connection. Booking systems refuse connections under MCT; a missed legal connection is the airline's problem, an illegal one is yours." },
+        { term: "X/ — transfer-point notation", body: "In a fare-calculation line, <code>X/</code> before a city means the passenger only CONNECTS there (no stopover): <code>OSA X/JKT MNL BKK</code> = Jakarta is a transfer. HIP checks are made at stopover points, not at X/ points." }
+      ]
+    },
+    {
       group: "Bookings, classes & the PNR",
       items: [
         { term: "PNR (Passenger Name Record)", body: "The booking file in the reservation system holding your itinerary, contact details, fare and ticket. Identified by a 6-character <b>record locator</b> (e.g. <code>X4F2QP</code>)." },
@@ -355,7 +469,13 @@
     { abbr: "AT / PA / WH", full: "Atlantic / Pacific / Western Hemisphere", grp: "Global Indicator", desc: "AT = crosses the Atlantic (Area 1 ⇄ 2/3); PA = crosses the Pacific (Area 1 ⇄ 3); WH = travel wholly within Area 1." },
     { abbr: "TTL", full: "Ticketing Time Limit", grp: "Booking", desc: "The deadline by which a held reservation must be ticketed (paid). Miss the TTL and the booking is auto-cancelled and seats released." },
     { abbr: "IRV", full: "IATA Rate of exchange Value (IROE)", grp: "Currency", desc: "Commonly the IROE / ROE — the rate that turns the NUC total into local money. (IRV is not a standard stand-alone IATA acronym; if your course uses it differently, treat it as the rate applied to the NUC. See ROE.)" },
-    { abbr: "TTL fare", full: "Total (ticket total)", grp: "Add-ons", desc: "The grand total the passenger pays = constructed fare (LCF) + taxes, fees and carrier surcharges (YQ/YR). Shown as the 'TTL' on a fare quote." }
+    { abbr: "TTL fare", full: "Total (ticket total)", grp: "Add-ons", desc: "The grand total the passenger pays = constructed fare (LCF) + taxes, fees and carrier surcharges (YQ/YR). Shown as the 'TTL' on a fare quote." },
+    { abbr: "MCT", full: "Minimum Connecting Time", grp: "Airport", desc: "The shortest legal gap allowed between an arriving and a departing flight at an airport (published per airport, terminal and domestic/international combination). Connections shorter than the MCT cannot be booked." },
+    { abbr: "Codeshare", full: "Code-share flight", grp: "Booking", desc: "One aircraft, several flight numbers: the operating carrier flies it, marketing carriers sell it under their own codes ('operated by …' on the ticket). The backbone of alliance networks." },
+    { abbr: "Interline", full: "Interline agreement", grp: "Booking", desc: "An agreement letting airlines accept each other's tickets and through-check bags — what makes a single ticket across two carriers (AI + UL) work." },
+    { abbr: "X/", full: "Transfer point (fare-line notation)", grp: "Routing", desc: "In a fare calculation line, X/ before a city marks a CONNECTION, not a stopover — e.g. OSA X/JKT MNL BKK. HIP checks are made at stopovers; X/ points are skipped." },
+    { abbr: "OJ / SOJ / DOJ", full: "Open Jaw (Single / Double)", grp: "Routing", desc: "Round trip with a surface gap: turnaround OJ (return from a different city), origin OJ (return to a different home city), double OJ (both). Priced from ½RT fares per component." },
+    { abbr: "RTW", full: "Round the World", grp: "Routing", desc: "A continuous journey crossing both the Atlantic and the Pacific once (GI AP), e.g. LHR→JFK→LAX→SYD→SIN→LHR." }
   ];
 
   /* ----------------------------------------------------------------------
@@ -475,6 +595,9 @@
     AREAS,
     GLOBAL_INDICATORS,
     AIRPORTS,
+    CITY_CODES,
+    AIRLINES,
+    ROUNDING_EXERCISE,
     CARRIERS,
     ROUTES,
     TOPICS,

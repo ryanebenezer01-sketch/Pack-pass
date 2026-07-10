@@ -21,6 +21,7 @@
     <nav class="nav">
       <button class="nav-btn active" data-tab="globe">🌐 3D Globe</button>
       <button class="nav-btn" data-tab="terms">🛫 Terminology</button>
+      <button class="nav-btn" data-tab="codes">🔤 Codes</button>
       <button class="nav-btn" data-tab="fare">💱 Fare Lab</button>
       <button class="nav-btn" data-tab="glossary">📚 Glossary</button>
     </nav>
@@ -94,6 +95,28 @@
       </div>
     </section>
 
+    <!-- ===================== TAB: CODES ===================== -->
+    <section id="tab-codes" class="tab-panel">
+      <div class="pad">
+        <h1>Codes — cities, airports &amp; airlines</h1>
+        <p class="lead">Aviation runs on codes: a 3-letter <b>city (metro) code</b> can cover several
+          airports (Seoul <code>SEL</code> → <code>ICN</code>/<code>GMP</code>), every <b>airport</b> has its own
+          3-letter code (Heathrow = <code>LHR</code>, Johannesburg = <code>JNB</code>), and every <b>airline</b> has a
+          2-letter designator plus a 3-digit ticket prefix (Cathay Pacific = <code>CX</code> / 160).</p>
+        <input id="codes-search" class="input search" placeholder="Search: Johannesburg, LHR, Cathay, Seoul, 160 …">
+
+        <h2 class="section-h">City (metro) codes — one code, many airports</h2>
+        <div id="codes-cities" class="table-wrap"></div>
+
+        <h2 class="section-h">Airport codes in this atlas</h2>
+        <p class="muted small">These are the ~50 airports on the 3D globe — click them there for terminals &amp; specialities.</p>
+        <div id="codes-airports" class="table-wrap"></div>
+
+        <h2 class="section-h">Airline codes (IATA designator + ticketing prefix)</h2>
+        <div id="codes-airlines" class="table-wrap"></div>
+      </div>
+    </section>
+
     <!-- ===================== TAB: FARE LAB ===================== -->
     <section id="tab-fare" class="tab-panel">
       <div class="pad">
@@ -155,6 +178,34 @@
             <div id="hip-rows"></div>
             <button id="hip-add" class="btn-ghost">+ add intermediate pair</button>
             <div id="hip-out" class="lab-out"></div>
+          </div>
+
+          <!-- NUC rounding exercise -->
+          <div class="lab-card lab-card--wide">
+            <h3>4 · Exercise — round the local currency for a NUC value</h3>
+            <p class="hint" style="margin-top:-6px">LCF = NUC × ROE, rounded <b>up</b> to the currency's
+              fare-rounding unit (JPY rounds to 100; most others to 1). ROEs below are illustrative —
+              type your course's values and everything recomputes.</p>
+            <div id="rounding-table" class="table-wrap"></div>
+          </div>
+
+          <!-- OSA -> BKK worked exercise -->
+          <div class="lab-card lab-card--wide">
+            <h3>5 · Exercise — one-way OSA → X/JKT → MNL → BKK (F class)</h3>
+            <p class="hint" style="margin-top:-6px">Osaka to Bangkok on JL to Jakarta (a transfer —
+              <code>X/</code>, not a stopover), PR to Manila, SQ to Bangkok, First class.
+              Enter the coupon TPMs and the MPM from the manual; the mileage check runs live.</p>
+            <div class="field-row">
+              <div class="field"><label>TPM · OSA–JKT (JL)</label>
+                <input id="osa-tpm1" class="input" type="number" value="6542"></div>
+              <div class="field"><label>TPM · JKT–MNL (PR)</label>
+                <input id="osa-tpm2" class="input" type="number" value="3840"></div>
+              <div class="field"><label>TPM · MNL–BKK (SQ)</label>
+                <input id="osa-tpm3" class="input" type="number" value="1623"></div>
+              <div class="field"><label>MPM · OSA–BKK (blank = auto ≈ GC×1.20)</label>
+                <input id="osa-mpm" class="input" type="number" placeholder="auto"></div>
+            </div>
+            <div id="osa-out" class="lab-out"></div>
           </div>
 
           <!-- EMS reference -->

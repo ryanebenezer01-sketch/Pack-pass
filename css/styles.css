@@ -209,6 +209,10 @@ code { background: #0b1526; border: 1px solid var(--line); border-radius: 5px; p
   background: #0a1424; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
   margin: 8px 0; font-size: 13px; }
 
+.rnd-in { width: 90px; background: var(--panel-2); color: var(--text); border: 1px solid var(--line);
+  border-radius: 6px; padding: 5px 7px; font-size: 13px; text-align: right; }
+.rnd-in:focus { outline: none; border-color: var(--accent); }
+
 .hip-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
 .hip-label { flex: 2; }
 .hip-fare { flex: 1; }

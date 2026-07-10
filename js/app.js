@@ -117,6 +117,68 @@
             .join("");
   }
 
+  /* ---- Codes tab (cities / airports / airlines, searchable) ---------- */
+  function renderCodes(filter) {
+    const q = (filter || "").trim().toLowerCase();
+    const hit = (...fields) =>
+      !q || fields.some((f) => String(f || "").toLowerCase().includes(q));
+
+    const cw = $("codes-cities");
+    if (cw) {
+      const rows = PP.CITY_CODES.filter((c) =>
+        hit(c.code, c.city, c.country, c.airports.map((a) => a.c + " " + a.n).join(" "))
+      );
+      cw.innerHTML =
+        "<table class='calc-table'><thead><tr><th>City code</th><th>City</th><th>Country</th>" +
+        "<th>Airports</th></tr></thead><tbody>" +
+        rows
+          .map(
+            (c) =>
+              "<tr><td><b>" + c.code + "</b></td><td>" + c.city + "</td><td>" + c.country +
+              "</td><td>" +
+              c.airports.map((a) => "<code>" + a.c + "</code> " + a.n).join(" · ") +
+              "</td></tr>"
+          )
+          .join("") +
+        (rows.length ? "" : "<tr><td colspan='4'>No match.</td></tr>") +
+        "</tbody></table>";
+    }
+
+    const aw = $("codes-airports");
+    if (aw) {
+      const rows = PP.AIRPORTS.filter((a) => hit(a.iata, a.city, a.country, a.area, a.hub));
+      aw.innerHTML =
+        "<table class='calc-table'><thead><tr><th>Code</th><th>City</th><th>Country</th>" +
+        "<th>Area</th><th>Hub carrier(s)</th></tr></thead><tbody>" +
+        rows
+          .map(
+            (a) =>
+              "<tr><td><b>" + a.iata + "</b></td><td>" + a.city + "</td><td>" + a.country +
+              "</td><td>" + a.area + "</td><td>" + (a.hub || "—") + "</td></tr>"
+          )
+          .join("") +
+        (rows.length ? "" : "<tr><td colspan='5'>No match.</td></tr>") +
+        "</tbody></table>";
+    }
+
+    const lw = $("codes-airlines");
+    if (lw) {
+      const rows = PP.AIRLINES.filter((al) => hit(al.code, al.name, al.country, al.prefix, al.alliance));
+      lw.innerHTML =
+        "<table class='calc-table'><thead><tr><th>Code</th><th>Airline</th><th>Country</th>" +
+        "<th>Ticket prefix</th><th>Alliance</th></tr></thead><tbody>" +
+        rows
+          .map(
+            (al) =>
+              "<tr><td><b>" + al.code + "</b></td><td>" + al.name + "</td><td>" + al.country +
+              "</td><td>" + al.prefix + "</td><td>" + al.alliance + "</td></tr>"
+          )
+          .join("") +
+        (rows.length ? "" : "<tr><td colspan='5'>No match.</td></tr>") +
+        "</tbody></table>";
+    }
+  }
+
   /* ---- EMS band reference table -------------------------------------- */
   function renderEmsTable() {
     const wrap = $("ems-table");
@@ -140,6 +202,7 @@
     renderTopics();
     renderGlossary("");
     renderEmsTable();
+    renderCodes("");
 
     document.querySelectorAll(".nav-btn").forEach((b) => {
       b.onclick = () => showTab(b.dataset.tab);
@@ -148,10 +211,13 @@
     const search = $("glossary-search");
     if (search) search.oninput = () => renderGlossary(search.value);
 
+    const codesSearch = $("codes-search");
+    if (codesSearch) codesSearch.oninput = () => renderCodes(codesSearch.value);
+
     // close the globe info panel when clicking its backdrop button is handled
     // inside globe.js; here we just honour a deep-link hash.
     const start = (location.hash || "#globe").replace("#", "");
-    showTab(["globe", "terms", "fare", "glossary"].includes(start) ? start : "globe");
+    showTab(["globe", "terms", "codes", "fare", "glossary"].includes(start) ? start : "globe");
   }
 
   if (document.readyState === "loading") {

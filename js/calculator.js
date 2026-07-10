@@ -262,6 +262,89 @@
       "For real tickets, swap the great-circle TPMs and the illustrative MPM/fares for the official IATA values.</div>";
   }
 
+  /* ---------- Exercise: NUC -> rounded local currency ------------------ */
+  function roundUp(raw, unit) {
+    if (!(unit > 0)) unit = 1;
+    return Math.ceil((raw - 1e-9) / unit) * unit;
+  }
+  function fmtUnit(val, unit) {
+    const dec = unit >= 1 ? 0 : unit >= 0.1 ? 1 : 3;
+    return val.toLocaleString(undefined, { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  }
+
+  function renderRounding() {
+    const wrap = $("rounding-table");
+    if (!wrap) return;
+    wrap.innerHTML =
+      "<table class='calc-table'><thead><tr><th>Country</th><th>CCY</th>" +
+      "<th class='num'>NUC</th><th class='num'>ROE</th><th class='num'>Rounding unit</th>" +
+      "<th class='num'>NUC × ROE</th><th class='num'>Rounded LCF</th></tr></thead><tbody>" +
+      PP.ROUNDING_EXERCISE.map(
+        (r, i) =>
+          "<tr><td>" + r.country + "</td><td><b>" + r.ccy + "</b></td>" +
+          "<td class='num'><input class='rnd-in' data-i='" + i + "' data-k='nuc' type='number' value='" + r.nuc + "'></td>" +
+          "<td class='num'><input class='rnd-in' data-i='" + i + "' data-k='roe' type='number' step='0.0001' value='" + r.roe + "'></td>" +
+          "<td class='num'><input class='rnd-in' data-i='" + i + "' data-k='unit' type='number' step='0.001' value='" + r.unit + "'></td>" +
+          "<td class='num' id='rnd-raw-" + i + "'></td>" +
+          "<td class='num' id='rnd-out-" + i + "'><b></b></td></tr>"
+      ).join("") +
+      "</tbody></table>";
+    wrap.querySelectorAll(".rnd-in").forEach((inp) => (inp.oninput = updateRounding));
+    updateRounding();
+  }
+
+  function updateRounding() {
+    document.querySelectorAll(".rnd-in").forEach((inp) => {
+      const i = +inp.dataset.i;
+      PP.ROUNDING_EXERCISE[i][inp.dataset.k] = parseFloat(inp.value) || 0;
+    });
+    PP.ROUNDING_EXERCISE.forEach((r, i) => {
+      const raw = r.nuc * r.roe;
+      const rounded = roundUp(raw, r.unit);
+      const rawEl = $("rnd-raw-" + i);
+      const outEl = $("rnd-out-" + i);
+      if (rawEl) rawEl.textContent = raw.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (outEl) outEl.innerHTML = "<b>" + fmtUnit(rounded, r.unit) + " " + r.ccy + "</b>";
+    });
+  }
+
+  /* ---------- Exercise: one-way OSA -> X/JKT -> MNL -> BKK (F) ---------- */
+  function runOsa() {
+    const t1 = parseFloat($("osa-tpm1").value) || 0;
+    const t2 = parseFloat($("osa-tpm2").value) || 0;
+    const t3 = parseFloat($("osa-tpm3").value) || 0;
+    const sum = t1 + t2 + t3;
+    const mpmIn = parseFloat($("osa-mpm").value);
+    const gc = U().segmentMiles("KIX", "BKK"); // OSA city ~ KIX airport
+    const mpm = !isNaN(mpmIn) && mpmIn > 0 ? mpmIn : gc ? Math.round(gc * 1.2) : 0;
+    const auto = isNaN(mpmIn) || mpmIn <= 0;
+    const band = emsBand(sum, mpm, 0);
+
+    const badge = band.invalid
+      ? '<span class="badge badge-bad">' + band.code + "</span>"
+      : '<span class="badge" style="background:' + (band.pct === 0 ? "#0f7a4d" : "#8a5a00") +
+        '">' + band.code + " · " + band.pct + "%</span>";
+
+    $("osa-out").innerHTML =
+      "<div class='mono-block'>Journey type: <b>ONE WAY</b> · class <b>F</b> · GI <b>EH</b> (all points in TC3)<br>" +
+      "OSA –JL→ X/JKT –PR→ MNL –SQ→ BKK   (X/JKT = transfer, MNL = stopover)</div>" +
+      "<div class='result-line'>Σ TPM = " + miles(t1) + " + " + miles(t2) + " + " + miles(t3) +
+      " = <b>" + miles(sum) + " mi</b></div>" +
+      "<div class='result-line'>MPM (OSA–BKK" + (auto ? ", illustrative ≈ GC×1.20" : ", from manual") +
+      ") = <b>" + miles(mpm) + " mi</b> · ratio = " + (mpm ? (sum / mpm).toFixed(3) : "—") + "</div>" +
+      "<div class='result-line'>Mileage check: " + badge + "</div>" +
+      (band.invalid
+        ? "<div class='hint warn'>Over 25M — this routing CANNOT be priced as one fare component. " +
+          "Solution: <b>break the fare</b> (e.g. component 1 OSA→MNL + component 2 MNL→BKK), run each " +
+          "component's own MPM/EMS and HIP checks in F class, then add the NUCs and convert with the " +
+          "ROE of Japan (journey starts in Osaka).</div>"
+        : "<div class='hint'>Within " + band.code + " — apply " + band.pct +
+          "% to the F-class OSA→BKK NUC fare, run the HIP check at the stopover (MNL — X/JKT is skipped), " +
+          "then convert with Japan's ROE and round to the JPY unit (100).</div>") +
+      "<div class='hint'>Tip: if your exercise sheet lists <b>6542 as the MPM</b> rather than a TPM, " +
+      "type it in the MPM box and put the real coupon TPMs on the left — everything recomputes.</div>";
+  }
+
   /* ---------- Wiring --------------------------------------------------- */
   let wired = false;
   function initCalculator() {
@@ -297,10 +380,18 @@
     $("hip-add").onclick = () => addHipRow("", "");
     $("hip-through").oninput = runHIP;
 
+    // Exercises
+    renderRounding();
+    ["osa-tpm1", "osa-tpm2", "osa-tpm3", "osa-mpm"].forEach((id) => {
+      const e = $(id);
+      if (e) e.oninput = runOsa;
+    });
+
     runMileage();
     updateCurrency();
     runHIP();
     renderWorkedExample();
+    runOsa();
   }
 
   PP.initCalculator = initCalculator;
