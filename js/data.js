@@ -144,6 +144,75 @@
   ];
 
   /* ----------------------------------------------------------------------
+     2b. COUNTRY / AIRPORT SPECIALITY
+     Merged onto each airport so clicking round the globe teaches you what
+     each country and its main airport is known for. Kept short on purpose.
+     ---------------------------------------------------------------------- */
+  const AIRPORT_NOTES = {
+    // TC1
+    JFK: { hub: "JetBlue · Delta · American", specialty: "New York — the USA's busiest trans-Atlantic gateway on the East Coast." },
+    LAX: { hub: "American · Delta · United", specialty: "The North-America ⇄ Pacific gateway; huge trans-Pacific traffic to Asia & Oceania." },
+    ORD: { hub: "United · American", specialty: "Chicago — a central US mega-hub, among the world's busiest by aircraft movements." },
+    MIA: { hub: "American Airlines", specialty: "The gateway to Latin America & the Caribbean, and a giant cargo hub." },
+    SFO: { hub: "United Airlines", specialty: "San Francisco — Silicon Valley's trans-Pacific gateway." },
+    YYZ: { hub: "Air Canada", specialty: "Canada's largest hub; the Star Alliance gateway to the Americas." },
+    YVR: { hub: "Air Canada · WestJet", specialty: "Vancouver — Canada's Pacific-facing gateway to Asia." },
+    MEX: { hub: "Aeroméxico", specialty: "A high-altitude Latin-American mega-city hub." },
+    GRU: { hub: "LATAM", specialty: "São Paulo — South America's busiest airport and Brazil's main gateway." },
+    GIG: { hub: "LATAM · GOL", specialty: "Rio de Janeiro's international gateway." },
+    EZE: { hub: "Aerolíneas Argentinas", specialty: "Buenos Aires — Argentina's gateway to Europe and the Americas." },
+    BOG: { hub: "Avianca", specialty: "Bogotá — high-altitude Andean hub and Avianca's home in Colombia." },
+    LIM: { hub: "LATAM Perú", specialty: "Lima — the west-coast South-American hub linking the Andes and Pacific." },
+    // TC2
+    LHR: { hub: "British Airways", specialty: "London — the world's busiest international airport and premier trans-Atlantic hub." },
+    CDG: { hub: "Air France", specialty: "Paris — continental Europe's largest hub." },
+    FRA: { hub: "Lufthansa", specialty: "Frankfurt — Germany's mega-hub and one of Europe's biggest cargo airports." },
+    AMS: { hub: "KLM", specialty: "Schiphol — a compact single-terminal Euro-hub famed for easy connections." },
+    MAD: { hub: "Iberia", specialty: "Madrid — Europe's gateway to Latin America." },
+    FCO: { hub: "ITA Airways", specialty: "Rome Fiumicino — Italy's main intercontinental gateway." },
+    ZRH: { hub: "SWISS", specialty: "Zurich — a premium Alpine hub with banking-capital connectivity." },
+    IST: { hub: "Turkish Airlines", specialty: "Istanbul — the bridge of Europe/Asia/Africa; Turkish flies to more countries than any airline." },
+    SVO: { hub: "Aeroflot", specialty: "Moscow Sheremetyevo — Russia's principal hub and a Trans-Siberian (TS) waypoint." },
+    DXB: { hub: "Emirates", specialty: "Dubai — the world's busiest airport for international passengers; the Gulf super-connector." },
+    AUH: { hub: "Etihad Airways", specialty: "Abu Dhabi — Etihad's home; a UAE long-haul hub bridging Area 2 and Area 3." },
+    DOH: { hub: "Qatar Airways", specialty: "Doha Hamad — an award-winning Gulf super-hub." },
+    JED: { hub: "Saudia · flynas", specialty: "Jeddah — the gateway for the Hajj & Umrah pilgrimage to Mecca." },
+    THR: { hub: "Iran Air", specialty: "Tehran — Iran is the eastern edge of IATA Area 2 (the Middle East / TC2 boundary)." },
+    CAI: { hub: "EgyptAir", specialty: "Cairo — North Africa's historic crossroads hub." },
+    JNB: { hub: "South African Airways", specialty: "Johannesburg OR Tambo — southern Africa's largest hub." },
+    NBO: { hub: "Kenya Airways", specialty: "Nairobi — East Africa's hub and safari gateway." },
+    ADD: { hub: "Ethiopian Airlines", specialty: "Addis Ababa — home of Ethiopian, Africa's largest and fastest-growing airline." },
+    LOS: { hub: "Air Peace & others", specialty: "Lagos — West Africa's busiest gateway." },
+    CMN: { hub: "Royal Air Maroc", specialty: "Casablanca — Morocco's hub linking Europe, Africa and the Americas." },
+    // TC3
+    DEL: { hub: "Air India · IndiGo", specialty: "Delhi — India's capital mega-hub; T3 handles all international + full-service flights." },
+    BOM: { hub: "Air India · IndiGo", specialty: "Mumbai — India's financial-capital gateway." },
+    CMB: { hub: "SriLankan Airlines", specialty: "Colombo — Sri Lanka's island gateway and UL's home, connecting South Asia." },
+    MLE: { hub: "Maldivian · seaplanes", specialty: "Malé — a resort-island gateway with seaplane transfers to the atolls." },
+    KTM: { hub: "Nepal Airlines", specialty: "Kathmandu — the Himalayan gateway to Everest, with a demanding high-terrain approach." },
+    DAC: { hub: "Biman Bangladesh", specialty: "Dhaka — Bangladesh's main gateway." },
+    KHI: { hub: "Pakistan International", specialty: "Karachi — Pakistan's port-city gateway (Pakistan is TC3, east of Iran)." },
+    SIN: { hub: "Singapore Airlines", specialty: "Changi — perennial 'world's best airport' and South-East Asia's premier hub." },
+    BKK: { hub: "Thai Airways", specialty: "Bangkok Suvarnabhumi — South-East Asia's tourism super-hub." },
+    KUL: { hub: "Malaysia Airlines · AirAsia", specialty: "Kuala Lumpur — home of AirAsia's low-cost empire and the klia2 mega low-cost terminal." },
+    CGK: { hub: "Garuda Indonesia", specialty: "Jakarta — gateway to the world's largest archipelago." },
+    MNL: { hub: "Philippine Airlines · Cebu Pacific", specialty: "Manila — the Philippines' island-nation hub." },
+    HKG: { hub: "Cathay Pacific", specialty: "Hong Kong — the gateway to mainland China and a top-3 world cargo airport." },
+    PEK: { hub: "Air China", specialty: "Beijing Capital — China's flag hub." },
+    PVG: { hub: "China Eastern", specialty: "Shanghai Pudong — China's international & cargo gateway." },
+    NRT: { hub: "Japan Airlines · ANA", specialty: "Tokyo Narita — Japan's long-haul international gateway." },
+    HND: { hub: "Japan Airlines · ANA", specialty: "Tokyo Haneda — the close-in airport, increasingly international." },
+    ICN: { hub: "Korean Air · Asiana", specialty: "Seoul Incheon — Korea's award-winning hub." },
+    SYD: { hub: "Qantas", specialty: "Sydney — Australia's premier gateway and home of the historic Kangaroo Route." },
+    MEL: { hub: "Qantas · Jetstar", specialty: "Melbourne — Australia's second mega-hub." },
+    AKL: { hub: "Air New Zealand", specialty: "Auckland — the South Pacific gateway, long-haul to the Americas and Asia." }
+  };
+  AIRPORTS.forEach((a) => {
+    const n = AIRPORT_NOTES[a.iata];
+    if (n) { a.hub = n.hub; a.specialty = n.specialty; }
+  });
+
+  /* ----------------------------------------------------------------------
      3. CARRIERS referenced in the sample routings
      ---------------------------------------------------------------------- */
   const CARRIERS = {
@@ -278,7 +347,15 @@
     { abbr: "GI", full: "Global Indicator", grp: "Routing", desc: "A two-letter code (AT, PA, EH, WH, PO, TS …) describing the geographic way a journey travels between areas. The GI selects which MPM and which fare apply." },
     { abbr: "OW / RT / CT", full: "One-Way / Round-Trip / Circle-Trip", grp: "Routing", desc: "The journey type. RT and CT fares are often built from two half-round-trip (½RT) amounts; OW uses one-way fares. The type drives which minimum checks (CTM, BHC) you run." },
     { abbr: "Q", full: "Q surcharge", grp: "Add-ons", desc: "A fixed surcharge added into the NUC construction for specific markets (fuel/route surcharges historically). Added to the fare before conversion." },
-    { abbr: "YQ / YR", full: "Carrier-imposed surcharge / fee", grp: "Add-ons", desc: "Airline-imposed amounts (often called 'fuel surcharge') collected as taxes/fees on the ticket, separate from the constructed fare." }
+    { abbr: "YQ / YR", full: "Carrier-imposed surcharge / fee", grp: "Add-ons", desc: "Airline-imposed amounts (often called 'fuel surcharge') collected as taxes/fees on the ticket, separate from the constructed fare." },
+    { abbr: "EH", full: "Eastern Hemisphere (Global Indicator)", grp: "Global Indicator", desc: "Journeys travelling within/between Area 2 and Area 3 through the Eastern Hemisphere. Our AUH→DEL→CMB example is an EH routing." },
+    { abbr: "TS", full: "Trans Siberian (Global Indicator)", grp: "Global Indicator", desc: "Area 2 ⇄ Area 3 routed via the Trans-Siberian corridor over Russia (e.g. Europe to Japan/Korea across Siberia). Selects its own MPM and fares." },
+    { abbr: "RU", full: "Russia (Global Indicator)", grp: "Global Indicator", desc: "Routings between Europe and Asia via the Russian Federation. Related to TS but a distinct indicator for fare selection." },
+    { abbr: "FE", full: "Far East (Global Indicator)", grp: "Global Indicator", desc: "Area 2 ⇄ Area 3 via the Far East (a non-Siberian easterly path). Chooses the MPM/fare for that geography." },
+    { abbr: "AT / PA / WH", full: "Atlantic / Pacific / Western Hemisphere", grp: "Global Indicator", desc: "AT = crosses the Atlantic (Area 1 ⇄ 2/3); PA = crosses the Pacific (Area 1 ⇄ 3); WH = travel wholly within Area 1." },
+    { abbr: "TTL", full: "Ticketing Time Limit", grp: "Booking", desc: "The deadline by which a held reservation must be ticketed (paid). Miss the TTL and the booking is auto-cancelled and seats released." },
+    { abbr: "IRV", full: "IATA Rate of exchange Value (IROE)", grp: "Currency", desc: "Commonly the IROE / ROE — the rate that turns the NUC total into local money. (IRV is not a standard stand-alone IATA acronym; if your course uses it differently, treat it as the rate applied to the NUC. See ROE.)" },
+    { abbr: "TTL fare", full: "Total (ticket total)", grp: "Add-ons", desc: "The grand total the passenger pays = constructed fare (LCF) + taxes, fees and carrier surcharges (YQ/YR). Shown as the 'TTL' on a fare quote." }
   ];
 
   /* ----------------------------------------------------------------------
@@ -339,6 +416,25 @@
     return Math.round(haversineMiles(a, b));
   }
 
+  // Match a GeoJSON country name to the airports we hold there.
+  const COUNTRY_ALIAS = {
+    "united states of america": "usa",
+    "united states": "usa",
+    "united arab emirates": "uae",
+    "turkey": "türkiye",
+    "hong kong s.a.r.": "hong kong",
+    "czechia": "czech republic",
+    "republic of korea": "south korea"
+  };
+  function normCountry(n) {
+    const k = String(n || "").toLowerCase().trim();
+    return COUNTRY_ALIAS[k] || k;
+  }
+  function airportsInCountry(name) {
+    const key = normCountry(name);
+    return AIRPORTS.filter((a) => normCountry(a.country) === key);
+  }
+
   /* ----------------------------------------------------------------------
      10. Country (ISO_A2) -> IATA area lookup, for shading the globe.
      Continent is the fallback; a Middle-East override moves Western-Asian
@@ -389,6 +485,7 @@
       haversineMiles,
       airport,
       segmentMiles,
+      airportsInCountry,
       areaForFeature,
       areaColor: (code) => (AREAS[code] ? AREAS[code].color : "#8894a8")
     }

@@ -11,17 +11,25 @@ travel brand. Open it, spin the Earth, click an airport, then go build a fare.
 ## What's inside
 
 ### 🌐 3D Globe
-- A real WebGL globe (ThreeJS via `globe.gl`) you can drag, zoom and auto-rotate.
-- Every country shaded by its **IATA Traffic Conference area**:
-  - **TC1 (Area 1)** — the Americas (teal)
-  - **TC2 (Area 2)** — Europe, Middle East & Africa (amber)
-  - **TC3 (Area 3)** — Asia, Australia & the Pacific (violet)
-- ~50 major international airports as clickable markers. Click any 3-letter
-  **IATA code** to see its city, country, area/sub-area, **terminals (T1/T2/T3…)**
-  and coordinates.
-- Sample **routings** drawn as animated great-circle arcs, including the
-  teaching example **AUH → DEL → CMB** (Abu Dhabi → Delhi on Air India, then
-  Colombo on SriLankan), plus Atlantic, Pacific and Kangaroo-route examples.
+A real WebGL globe (ThreeJS via `globe.gl`) you can drag, zoom and auto-rotate,
+with three **Looks**:
+- **🌃 Night** — satellite Earth with glowing city lights, a starfield and neon
+  flight arcs (the classic "flights around the globe" look).
+- **🌍 Day** — the photoreal blue-marble Earth with terrain relief.
+- **🗺️ IATA areas** — thematic shading by **Traffic Conference area**:
+  **TC1** the Americas (teal) · **TC2** Europe/Middle East/Africa (amber) ·
+  **TC3** Asia/Australia/Pacific (violet).
+
+**Learn by clicking** — the core of the tool:
+- Click any airport **IATA code** → its **hub carrier**, **speciality**,
+  **terminals (T1/T2/T3…)**, IATA area/sub-area and coordinates.
+- Click any **country** → its IATA area (with explanation) and the airports it
+  holds, each clickable to fly there.
+
+~50 major international airports across all three areas, plus sample **routings**
+drawn as animated great-circle arcs: the teaching example **AUH → DEL → CMB**
+(Abu Dhabi → Delhi on Air India, then Colombo on SriLankan), plus Atlantic,
+Pacific, Kangaroo-route and a Bangkok (BKK) example.
 
 ### 🛫 Terminology
 Plain-English cards for everything you need to answer questions on:
@@ -76,6 +84,7 @@ js/calculator.js      # fare-construction engine (TPM/MPM/EMS, NUC/ROE, HIP)
 js/app.js             # navigation + content rendering
 js/vendor/            # globe.gl (bundles ThreeJS) — vendored
 assets/countries.geojson  # Natural Earth country polygons — vendored
+assets/textures/      # Earth day/night/topology + starfield maps — vendored
 ```
 
 ## A note on accuracy
@@ -92,3 +101,5 @@ the same method applies.
   wraps [ThreeJS](https://threejs.org/).
 - Country boundaries: [Natural Earth](https://www.naturalearthdata.com/)
   (public domain), 1:110m admin-0 dataset.
+- Earth textures (day/night/topology, star map): NASA Visible Earth / Blue
+  Marble imagery as bundled with the `three-globe` examples.

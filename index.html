@@ -32,8 +32,16 @@
     <section id="tab-globe" class="tab-panel active">
       <div class="globe-layout">
         <aside class="globe-controls">
-          <h2>The world, by IATA area</h2>
-          <p class="muted">Drag to spin · scroll to zoom · click any <b>airport code</b>.</p>
+          <h2>Explore the world of flight</h2>
+          <p class="muted">Drag to spin · scroll to zoom · click any <b>airport code</b> for its
+            hub &amp; terminals, or click a <b>country</b> to learn its IATA area &amp; airports.</p>
+
+          <label class="ctl-label">Look</label>
+          <select id="globe-look" class="select">
+            <option value="night">🌃 Night — city lights + neon arcs</option>
+            <option value="day">🌍 Day — blue-marble + clouds</option>
+            <option value="areas">🗺️ IATA areas — thematic shading</option>
+          </select>
 
           <label class="ctl-label">Show a routing</label>
           <select id="globe-route" class="select"></select>
@@ -48,7 +56,7 @@
           </select>
 
           <div class="toggles">
-            <label class="switch"><input type="checkbox" id="toggle-countries"> Country shading</label>
+            <label class="switch"><input type="checkbox" id="toggle-borders"> Country borders</label>
             <label class="switch"><input type="checkbox" id="toggle-airports"> Airports</label>
             <label class="switch"><input type="checkbox" id="toggle-rotate"> Auto-rotate</label>
           </div>
@@ -106,6 +114,7 @@
               <button class="mlg-preset" data-route="AUH-DEL-CMB">AUH-DEL-CMB</button>
               <button class="mlg-preset" data-route="LHR-JFK-GRU">LHR-JFK-GRU</button>
               <button class="mlg-preset" data-route="AUH-LHR-JFK-BOG">AUH-…-BOG</button>
+              <button class="mlg-preset" data-route="DEL-BKK-SYD">DEL-BKK-SYD</button>
               <button class="mlg-preset" data-route="SYD-SIN-LHR">SYD-SIN-LHR</button>
             </div>
             <div class="field-row">
@@ -152,6 +161,37 @@
           <div class="lab-card lab-card--wide">
             <h3>The EMS band table — how the surcharge steps work</h3>
             <div id="ems-table" class="table-wrap"></div>
+          </div>
+
+          <!-- Minimum checks + totals -->
+          <div class="lab-card lab-card--wide">
+            <h3>The other minimum checks &amp; the ticket total</h3>
+            <div class="mini-grid">
+              <div class="mini">
+                <h4>HIP — Higher Intermediate Point</h4>
+                <p>If an intermediate city-pair prices higher than your through O&amp;D fare, use that
+                  higher fare. (Calculator #3 above.)</p>
+              </div>
+              <div class="mini">
+                <h4>CTM — Circle Trip Minimum</h4>
+                <p>On a circle trip (you loop back to the origin a different way), the total must be at
+                  least the highest one-way fare from the origin to any turnaround point.</p>
+              </div>
+              <div class="mini">
+                <h4>BHC — Backhaul Check</h4>
+                <p>On a one-way component, if an intermediate point's fare is higher than the
+                  destination's, you may be "back-hauling" past a dearer market — you're charged at
+                  least that higher intermediate fare.</p>
+              </div>
+              <div class="mini">
+                <h4>TTL — the ticket Total</h4>
+                <p>What the passenger actually pays = <b>LCF</b> (the constructed fare in local money)
+                  + taxes + fees + carrier surcharges (<b>YQ/YR</b>). The <b>TTL</b> line on a quote.</p>
+              </div>
+            </div>
+            <div class="hint">Order of build: <b>construct the fare</b> (TPM→MPM→EMS) → run the
+              minimums (<b>HIP · CTM · BHC</b>) → sum components in <b>NUC</b> → convert with the
+              <b>ROE</b> to <b>LCF</b> → add taxes/surcharges = <b>TTL</b>.</div>
           </div>
         </div>
 
