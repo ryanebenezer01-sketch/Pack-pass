@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pack-Pass Atlas — Flight Geography &amp; IATA Fare Lab</title>
+  <meta name="description" content="An interactive 3D globe of the world's airports and IATA Traffic Conference areas, plus a fare-construction lab (NUC, ROE, MPM, TPM, EMS, EMA, HIP)." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%8D%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-globe">🌍</span>
+      <div>
+        <div class="brand-name">Pack-Pass <span>Atlas</span></div>
+        <div class="brand-tag">Flight geography &amp; the IATA fare lab</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-tab="globe">🌐 3D Globe</button>
+      <button class="nav-btn" data-tab="terms">🛫 Terminology</button>
+      <button class="nav-btn" data-tab="codes">🔤 Codes</button>
+      <button class="nav-btn" data-tab="fare">💱 Fare Lab</button>
+      <button class="nav-btn" data-tab="glossary">📚 Glossary</button>
+    </nav>
+  </header>
+
+  <main class="main">
+
+    <!-- ===================== TAB: 3D GLOBE ===================== -->
+    <section id="tab-globe" class="tab-panel active">
+      <div class="globe-layout">
+        <aside class="globe-controls">
+          <h2>Explore the world of flight</h2>
+          <p class="muted">Drag to spin · scroll to zoom · <b>right-click to freeze</b> the spin
+            while you zoom in · click any <b>airport code</b> for its hub &amp; terminals, or click a
+            <b>country</b> to learn its IATA area &amp; airports.</p>
+
+          <label class="ctl-label">Look</label>
+          <select id="globe-look" class="select">
+            <option value="night">🌃 Night — city lights + neon arcs</option>
+            <option value="day">🌍 Day — blue-marble + clouds</option>
+            <option value="areas">🗺️ IATA areas — thematic shading</option>
+          </select>
+
+          <label class="ctl-label">Show a routing</label>
+          <select id="globe-route" class="select"></select>
+          <p id="globe-route-note" class="route-note"></p>
+
+          <label class="ctl-label">Filter airports by area</label>
+          <select id="globe-area" class="select">
+            <option value="ALL">All areas</option>
+            <option value="TC1">TC1 — Americas</option>
+            <option value="TC2">TC2 — Europe / ME / Africa</option>
+            <option value="TC3">TC3 — Asia / Pacific</option>
+          </select>
+
+          <div class="toggles">
+            <label class="switch"><input type="checkbox" id="toggle-borders"> Country borders</label>
+            <label class="switch"><input type="checkbox" id="toggle-airports"> Airports</label>
+            <label class="switch"><input type="checkbox" id="toggle-rotate"> Auto-rotate</label>
+          </div>
+
+          <div class="legend">
+            <div class="legend-title">Traffic Conference areas</div>
+            <div id="area-legend" class="legend-row"></div>
+          </div>
+          <p id="globe-countries-note" class="muted small"></p>
+        </aside>
+
+        <div class="globe-stage">
+          <div id="globe-canvas" class="globe-canvas"></div>
+          <div id="globe-freeze-badge" class="freeze-badge">⏸ Frozen — right-click to resume the spin</div>
+          <aside id="globe-info" class="globe-info"></aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TAB: TERMINOLOGY ===================== -->
+    <section id="tab-terms" class="tab-panel">
+      <div class="pad">
+        <h1>Terminology — from terminals to traffic areas</h1>
+        <p class="lead">Everything you asked to learn: airport <b>terminals (T1/T2/T3)</b>,
+          <b>stopovers &amp; layovers</b>, the three IATA <b>traffic conference areas
+          (TC1/TC2/TC3)</b>, global indicators, and how <b>bookings</b> work.</p>
+
+        <h2 class="section-h">The three IATA areas (TC1 · TC2 · TC3)</h2>
+        <div id="area-cards" class="area-cards"></div>
+
+        <h2 class="section-h">Global Indicators — how a journey crosses the oceans</h2>
+        <div id="gi-table" class="table-wrap"></div>
+
+        <h2 class="section-h">Terminals, stops &amp; bookings</h2>
+        <div id="topic-groups"></div>
+      </div>
+    </section>
+
+    <!-- ===================== TAB: CODES ===================== -->
+    <section id="tab-codes" class="tab-panel">
+      <div class="pad">
+        <h1>Codes — cities, airports &amp; airlines</h1>
+        <p class="lead">Aviation runs on codes: a 3-letter <b>city (metro) code</b> can cover several
+          airports (Seoul <code>SEL</code> → <code>ICN</code>/<code>GMP</code>), every <b>airport</b> has its own
+          3-letter code (Heathrow = <code>LHR</code>, Johannesburg = <code>JNB</code>), and every <b>airline</b> has a
+          2-letter designator plus a 3-digit ticket prefix (Cathay Pacific = <code>CX</code> / 160).</p>
+        <input id="codes-search" class="input search" placeholder="Search: Johannesburg, LHR, Cathay, Seoul, 160 …">
+
+        <h2 class="section-h">City (metro) codes — one code, many airports</h2>
+        <div id="codes-cities" class="table-wrap"></div>
+
+        <h2 class="section-h">Airport codes in this atlas</h2>
+        <p class="muted small">These are the ~50 airports on the 3D globe — click them there for terminals &amp; specialities.</p>
+        <div id="codes-airports" class="table-wrap"></div>
+
+        <h2 class="section-h">Airline codes (IATA designator + ticketing prefix)</h2>
+        <div id="codes-airlines" class="table-wrap"></div>
+      </div>
+    </section>
+
+    <!-- ===================== TAB: FARE LAB ===================== -->
+    <section id="tab-fare" class="tab-panel">
+      <div class="pad">
+        <h1>The Fare Lab — build an IATA fare like a ticketing agent</h1>
+        <p class="lead">Type a routing and watch the mileage system work: sum the
+          <b>TPM</b>, compare with the <b>MPM</b>, find the <b>EMS</b> band, apply it to a
+          <b>NUC</b> fare, then convert to local money with the <b>ROE</b>.</p>
+
+        <div class="lab-grid">
+          <!-- Mileage + EMS -->
+          <div class="lab-card">
+            <h3>1 · Mileage &amp; Excess-Mileage Surcharge (TPM · MPM · EMA · EMS)</h3>
+            <div class="field">
+              <label>Routing (IATA codes)</label>
+              <input id="mlg-route" class="input" placeholder="AUH-DEL-CMB">
+            </div>
+            <div class="presets">
+              <button class="mlg-preset" data-route="AUH-DEL-CMB">AUH-DEL-CMB</button>
+              <button class="mlg-preset" data-route="LHR-JFK-GRU">LHR-JFK-GRU</button>
+              <button class="mlg-preset" data-route="AUH-LHR-JFK-BOG">AUH-…-BOG</button>
+              <button class="mlg-preset" data-route="DEL-BKK-SYD">DEL-BKK-SYD</button>
+              <button class="mlg-preset" data-route="SYD-SIN-LHR">SYD-SIN-LHR</button>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>MPM (blank = auto ≈ O&amp;D×1.20)</label>
+                <input id="mlg-mpm" class="input" type="number" placeholder="auto"></div>
+              <div class="field"><label>EMA deduction (mi)</label>
+                <input id="mlg-ema" class="input" type="number" placeholder="0"></div>
+              <div class="field"><label>Base fare (NUC)</label>
+                <input id="mlg-nuc" class="input" type="number" placeholder="e.g. 430"></div>
+            </div>
+            <div id="mlg-out" class="lab-out"></div>
+          </div>
+
+          <!-- Currency -->
+          <div class="lab-card">
+            <h3>2 · NUC → Local Currency (ROE)</h3>
+            <div class="field">
+              <label>Country of commencement (picks the ROE)</label>
+              <select id="cur-roe-pick" class="select"></select>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Fare in NUC</label>
+                <input id="cur-nuc" class="input" type="number" placeholder="e.g. 430"></div>
+              <div class="field"><label>ROE (rate of exchange)</label>
+                <input id="cur-roe" class="input" type="number" step="0.0001"></div>
+            </div>
+            <div id="cur-out" class="lab-out"></div>
+          </div>
+
+          <!-- HIP -->
+          <div class="lab-card">
+            <h3>3 · Higher Intermediate Point (HIP) check</h3>
+            <div class="field">
+              <label>Through Origin→Destination fare (NUC)</label>
+              <input id="hip-through" class="input" type="number" value="430">
+            </div>
+            <label class="ctl-label">Intermediate city-pair fares</label>
+            <div id="hip-rows"></div>
+            <button id="hip-add" class="btn-ghost">+ add intermediate pair</button>
+            <div id="hip-out" class="lab-out"></div>
+          </div>
+
+          <!-- NUC rounding exercise -->
+          <div class="lab-card lab-card--wide">
+            <h3>4 · Exercise — round the local currency for a NUC value</h3>
+            <p class="hint" style="margin-top:-6px">LCF = NUC × ROE, rounded <b>up</b> to the currency's
+              fare-rounding unit (JPY rounds to 100; most others to 1). ROEs below are illustrative —
+              type your course's values and everything recomputes.</p>
+            <div id="rounding-table" class="table-wrap"></div>
+          </div>
+
+          <!-- OSA -> BKK worked exercise -->
+          <div class="lab-card lab-card--wide">
+            <h3>5 · Exercise — one-way OSA → X/JKT → MNL → BKK (F class)</h3>
+            <p class="hint" style="margin-top:-6px">Osaka to Bangkok on JL to Jakarta (a transfer —
+              <code>X/</code>, not a stopover), PR to Manila, SQ to Bangkok, First class.
+              Enter the coupon TPMs and the MPM from the manual; the mileage check runs live.</p>
+            <div class="field-row">
+              <div class="field"><label>TPM · OSA–JKT (JL)</label>
+                <input id="osa-tpm1" class="input" type="number" value="6542"></div>
+              <div class="field"><label>TPM · JKT–MNL (PR)</label>
+                <input id="osa-tpm2" class="input" type="number" value="3840"></div>
+              <div class="field"><label>TPM · MNL–BKK (SQ)</label>
+                <input id="osa-tpm3" class="input" type="number" value="1623"></div>
+              <div class="field"><label>MPM · OSA–BKK (blank = auto ≈ GC×1.20)</label>
+                <input id="osa-mpm" class="input" type="number" placeholder="auto"></div>
+            </div>
+            <div id="osa-out" class="lab-out"></div>
+          </div>
+
+          <!-- EMS reference -->
+          <div class="lab-card lab-card--wide">
+            <h3>The EMS band table — how the surcharge steps work</h3>
+            <div id="ems-table" class="table-wrap"></div>
+          </div>
+
+          <!-- Minimum checks + totals -->
+          <div class="lab-card lab-card--wide">
+            <h3>The other minimum checks &amp; the ticket total</h3>
+            <div class="mini-grid">
+              <div class="mini">
+                <h4>HIP — Higher Intermediate Point</h4>
+                <p>If an intermediate city-pair prices higher than your through O&amp;D fare, use that
+                  higher fare. (Calculator #3 above.)</p>
+              </div>
+              <div class="mini">
+                <h4>CTM — Circle Trip Minimum</h4>
+                <p>On a circle trip (you loop back to the origin a different way), the total must be at
+                  least the highest one-way fare from the origin to any turnaround point.</p>
+              </div>
+              <div class="mini">
+                <h4>BHC — Backhaul Check</h4>
+                <p>On a one-way component, if an intermediate point's fare is higher than the
+                  destination's, you may be "back-hauling" past a dearer market — you're charged at
+                  least that higher intermediate fare.</p>
+              </div>
+              <div class="mini">
+                <h4>TTL — the ticket Total</h4>
+                <p>What the passenger actually pays = <b>LCF</b> (the constructed fare in local money)
+                  + taxes + fees + carrier surcharges (<b>YQ/YR</b>). The <b>TTL</b> line on a quote.</p>
+              </div>
+            </div>
+            <div class="hint">Order of build: <b>construct the fare</b> (TPM→MPM→EMS) → run the
+              minimums (<b>HIP · CTM · BHC</b>) → sum components in <b>NUC</b> → convert with the
+              <b>ROE</b> to <b>LCF</b> → add taxes/surcharges = <b>TTL</b>.</div>
+          </div>
+        </div>
+
+        <h2 class="section-h">Fully worked example — AUH → DEL → CMB</h2>
+        <div id="worked-example" class="worked"></div>
+      </div>
+    </section>
+
+    <!-- ===================== TAB: GLOSSARY ===================== -->
+    <section id="tab-glossary" class="tab-panel">
+      <div class="pad">
+        <h1>Glossary — every acronym, in full</h1>
+        <p class="lead">The full form and plain-English meaning of every fare-construction
+          term. Search to jump straight to one.</p>
+        <input id="glossary-search" class="input search" placeholder="Search: NUC, MPM, HIP, backhaul …">
+        <div id="glossary-list" class="glossary-list"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    Pack-Pass Atlas · a study tool for flight geography &amp; IATA fare construction.
+    Mileages shown are great-circle proxies; real tickets use the official IATA TPM/MPM manuals.
+  </footer>
+
+  <!-- 3D globe engine (ThreeJS + globe.gl) — vendored locally, works offline -->
+  <script src="js/vendor/globe.gl.min.js"></script>
+  <!-- App code -->
+  <script src="js/data.js"></script>
+  <script src="js/globe.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
