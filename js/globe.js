@@ -34,7 +34,8 @@
     showAirports: true,
     showCountries: true,
     showBorders: true,
-    autoRotate: true
+    autoRotate: true,
+    frozen: false // right-click toggles this: pauses the spin for zooming
   };
 
   const el = (id) => document.getElementById(id);
@@ -108,7 +109,15 @@
     g.labelsData(visibleAirports());
     g.arcsData(currentSegments());
     g.ringsData(state.showAirports ? routeAirports() : []);
-    g.controls().autoRotate = state.autoRotate;
+    g.controls().autoRotate = state.autoRotate && !state.frozen;
+  }
+
+  /* ---- freeze (right-click): pause the spin to zoom & inspect --------- */
+  function setFrozen(v) {
+    state.frozen = v;
+    if (state.globe) state.globe.controls().autoRotate = state.autoRotate && !v;
+    const badge = el("globe-freeze-badge");
+    if (badge) badge.classList.toggle("show", v);
   }
 
   /* ---- info panels ---------------------------------------------------- */
@@ -275,6 +284,13 @@
     g.controls().autoRotate = state.autoRotate;
     g.controls().autoRotateSpeed = 0.4;
     g.pointOfView({ lat: 22, lng: 60, altitude: 2.5 }, 0);
+
+    // Right-click anywhere on the globe toggles FREEZE: the spin pauses so
+    // you can zoom into a region and read it; right-click again to resume.
+    holder.addEventListener("contextmenu", (ev) => {
+      ev.preventDefault();
+      setFrozen(!state.frozen);
+    });
 
     state.globe = g;
     applyLook();

@@ -34,8 +34,9 @@
       <div class="globe-layout">
         <aside class="globe-controls">
           <h2>Explore the world of flight</h2>
-          <p class="muted">Drag to spin · scroll to zoom · click any <b>airport code</b> for its
-            hub &amp; terminals, or click a <b>country</b> to learn its IATA area &amp; airports.</p>
+          <p class="muted">Drag to spin · scroll to zoom · <b>right-click to freeze</b> the spin
+            while you zoom in · click any <b>airport code</b> for its hub &amp; terminals, or click a
+            <b>country</b> to learn its IATA area &amp; airports.</p>
 
           <label class="ctl-label">Look</label>
           <select id="globe-look" class="select">
@@ -71,6 +72,7 @@
 
         <div class="globe-stage">
           <div id="globe-canvas" class="globe-canvas"></div>
+          <div id="globe-freeze-badge" class="freeze-badge">⏸ Frozen — right-click to resume the spin</div>
           <aside id="globe-info" class="globe-info"></aside>
         </div>
       </div>
