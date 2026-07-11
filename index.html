@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pack-pass — Fare Construction &amp; Currency Rounding Guide</title>
+<style>
+  :root{
+    --bg:#f7f8fb; --panel:#ffffff; --ink:#16202a; --muted:#5b6673;
+    --line:#e3e7ee; --accent:#1f6feb; --accent-2:#0e8f6f; --warn:#b7791f;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1216; --panel:#171c22; --ink:#e9edf2; --muted:#9aa6b2; --line:#2a323c; --accent:#6ea8ff; --accent-2:#4fd8ac; --warn:#e0af5b; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  header{padding:2.5rem 1.5rem 1.5rem;text-align:center}
+  header h1{margin:0 0 .4rem;font-size:1.9rem}
+  header p{color:var(--muted);margin:0;max-width:38rem;margin-inline:auto}
+  nav{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;padding:0 1rem 2rem}
+  nav a{color:var(--accent);text-decoration:none;font-size:.9rem;border:1px solid var(--line);padding:.4rem .8rem;border-radius:999px}
+  main{max-width:52rem;margin:0 auto;padding:0 1.25rem 4rem}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.5rem 1.75rem;margin-bottom:1.5rem}
+  h2{margin-top:0;font-size:1.25rem}
+  h3{font-size:1.02rem;margin-bottom:.4rem}
+  table{width:100%;border-collapse:collapse;font-size:.92rem;overflow-x:auto;display:block}
+  th,td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{color:var(--muted);font-weight:600}
+  code{background:rgba(127,127,127,.14);padding:.1rem .35rem;border-radius:5px;font-size:.9em}
+  .note{border-left:3px solid var(--warn);background:rgba(183,121,31,.08);padding:.75rem 1rem;border-radius:8px;font-size:.9rem;color:var(--ink)}
+  .glossary dt{font-weight:600;margin-top:.75rem}
+  .glossary dd{margin:.15rem 0 0;color:var(--muted)}
+  .steps{padding-left:1.2rem}
+  .steps li{margin-bottom:.4rem}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:2rem 1rem}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Pack-pass Learning Hub</h1>
+  <p>Itinerary planning and visa/passport admin, plus the fare-construction basics behind how airfares actually get built and rounded.</p>
+</header>
+
+<nav>
+  <a href="#globe">Fare Construction &amp; Currency Rounding</a>
+</nav>
+
+<main>
+
+<section id="globe">
+  <h2>NUC → Local Currency Rounding, Explained</h2>
+  <p>When an airfare is constructed across countries, IATA builds it in a currency-neutral unit first, then converts it back into real money using a fixed rule. This page walks through that process end to end.</p>
+
+  <h3>Glossary</h3>
+  <dl class="glossary">
+    <dt>NUC — Neutral Unit of Construction</dt>
+    <dd>A fictitious currency used only inside the fare-construction formula, so amounts from different countries can be added together. Always carried to 2 decimal places (truncated, never rounded, until the final step).</dd>
+
+    <dt>ROE — Rate of Exchange</dt>
+    <dd>The official IATA factor that converts a NUC total into the local currency of the country where travel begins. Published by IATA (Passenger Resolution 024c) and updated periodically — always use the rate in effect on the ticket issue date.</dd>
+
+    <dt>Rounding Unit (RU)</dt>
+    <dd>Each currency has an official "step size" it must round to (e.g. 1, 0.10, 0.05, 100). Fare amounts are always rounded <strong>up</strong> to the next RU step — never rounded to nearest, never down.</dd>
+
+    <dt>GI — Global Indicator</dt>
+    <dd>A 2-letter code (e.g. <code>EH</code>) marking which geographical routing/direction a fare applies to. It determines which mileage table (MPM) governs the itinerary.</dd>
+
+    <dt>MPM — Maximum Permitted Mileage</dt>
+    <dd>The maximum mileage IATA allows between two fare construction points before an excess mileage surcharge applies.</dd>
+
+    <dt>TPM — Ticketed Point Mileage</dt>
+    <dd>The actual flown distance between two ticketed points, checked against the MPM.</dd>
+
+    <dt>Fare Basis / Rule code (e.g. Y974)</dt>
+    <dd>An alphanumeric tag identifying the specific filed fare and its rule record. The leading letter (e.g. <code>Y</code>) marks the class of service/fare type; the digits point to the rule.</dd>
+
+    <dt>OW / RT</dt>
+    <dd>One Way / Round Trip fare.</dd>
+  </dl>
+
+  <div class="note">
+    <strong>Note on "FIF":</strong> this isn't a term with a single universal IATA meaning — it appears to be specific to the course/GDS material this example came from. Rather than guess and risk teaching the wrong definition, check the legend on the original worksheet/course page it came from.
+  </div>
+
+  <h3>The rounding rule</h3>
+  <ol class="steps">
+    <li>Add up the fare construction in NUC.</li>
+    <li>Multiply the NUC total by the ROE for the currency of the country where the journey starts.</li>
+    <li>Carry the result <strong>one decimal place beyond</strong> the currency's rounding unit.</li>
+    <li>Round <strong>up</strong> to the next rounding unit — even if the excess is just 0.01.</li>
+  </ol>
+
+  <h3>Worked examples</h3>
+  <p>ROE values below are <em>illustrative placeholders</em> for teaching the mechanics — always substitute the real ROE from the current IATA Rates of Exchange table for an actual ticket.</p>
+  <table>
+    <thead>
+      <tr><th>Country</th><th>NUC total</th><th>Illustrative ROE</th><th>Local amount (unrounded)</th><th>Rounding Unit</th><th>Rounded fare</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Australia</td><td>897.25</td><td>1.52</td><td>1,363.82</td><td>1</td><td>AUD 1,364</td></tr>
+      <tr><td>Japan</td><td>673.22</td><td>145</td><td>97,617.90</td><td>100</td><td>JPY 97,700</td></tr>
+      <tr><td>USA</td><td>922.21</td><td>1.00</td><td>922.21</td><td>1</td><td>USD 923</td></tr>
+      <tr><td>France</td><td>1,293.00</td><td>0.93</td><td>1,202.49</td><td>0.01</td><td>EUR 1,202.49</td></tr>
+      <tr><td>Jordan</td><td>39,281.23</td><td>0.71</td><td>27,889.67</td><td>0.500</td><td>JOD 28,000.000</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reading a fare-construction line: Osaka (OSA) → Manila (MNL)</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Example value</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td>Route</td><td>OSA–MNL</td><td>Osaka, Japan to Manila, Philippines</td></tr>
+      <tr><td>GI</td><td>EH</td><td>Global Indicator — governs which MPM table applies</td></tr>
+      <tr><td>MPM</td><td>11,000</td><td>Maximum mileage allowed before a surcharge applies</td></tr>
+      <tr><td>Fare basis / rule</td><td>Y974</td><td>Filed fare + rule reference for this market</td></tr>
+      <tr><td>OW / RT local currency</td><td>1827 / 1586</td><td>Printed one-way / round-trip fares in local currency</td></tr>
+      <tr><td>OW / RT in NUC</td><td>2877 / 2586</td><td>Same fares expressed in Neutral Units before conversion</td></tr>
+    </tbody>
+  </table>
+  <p class="note">The last figure in your source ("59") most likely belongs to a TPM or mileage-surcharge column that didn't copy over cleanly — confirm against the original table's column headers before using it.</p>
+
+  <h3>Sources</h3>
+  <ul>
+    <li><a href="https://www.iata.org/en/publications/manuals/iata-rates-of-exchange/">IATA Rates of Exchange</a></li>
+    <li><a href="https://www.iata.org/en/services/finance/xrates/">IATA Exchange Rates Services</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Fare_basis_code">Fare basis code — Wikipedia</a></li>
+  </ul>
+</section>
+
+</main>
+
+<footer>Pack-pass — pack your bags, pass through immigration hassle-free.</footer>
+
+</body>
+</html>
